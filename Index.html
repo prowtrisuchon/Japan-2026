@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f7fb">
+<title>Japan Together | Shopping List</title>
+<style>
+:root{--blue:#2455e8;--navy:#17233c;--bg:#f5f7fb;--gray:#788397;--line:#e8edf4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--navy);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:white;padding:22px 20px 18px;border-bottom:1px solid var(--line)}
+.wrap{max-width:700px;margin:auto}
+.top{display:flex;justify-content:space-between;align-items:center}
+h1{font-size:24px;margin:8px 0 4px;letter-spacing:-.6px}
+small,.muted{color:var(--gray)}
+.badge{background:#edf2ff;color:var(--blue);padding:8px 12px;border-radius:30px;font-size:12px;font-weight:700}
+main{padding:18px 16px 100px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.stat{background:white;padding:16px 10px;border-radius:17px;text-align:center}
+.stat strong{display:block;font-size:26px}
+.stat span{font-size:12px;color:var(--gray)}
+.progress{background:white;border-radius:18px;padding:18px;margin:12px 0 22px}
+.bar{height:9px;background:#e9eef8;border-radius:20px;overflow:hidden;margin-top:12px}
+.fill{height:100%;background:var(--blue);width:0%;transition:.3s}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+h2{font-size:19px;margin:0}
+button{font:inherit;cursor:pointer;border:0}
+.primary{background:var(--blue);color:white;padding:13px 18px;border-radius:13px;font-weight:700}
+.secondary{background:#edf2ff;color:var(--blue);padding:9px 12px;border-radius:10px}
+.danger{background:#fff0f0;color:#c73535;padding:9px 12px;border-radius:10px}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0}
+input,select{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;background:white;color:var(--navy);font-size:15px;min-width:0}
+.search{grid-column:span 2}
+.card{background:white;border-radius:19px;padding:14px;margin-bottom:12px;display:flex;gap:14px;box-shadow:0 3px 15px #17233c08}
+.photo{width:92px;height:104px;object-fit:cover;border-radius:13px;background:#eef2f8;flex-shrink:0}
+.placeholder{display:flex;align-items:center;justify-content:center;font-size:35px}
+.info{flex:1;min-width:0}
+.name{font-weight:750;font-size:15px;margin:3px 0 6px;overflow-wrap:anywhere}
+.detail{font-size:12px;color:var(--gray);line-height:1.7;overflow-wrap:anywhere}
+.price{font-size:16px;color:var(--blue);font-weight:800;margin:7px 0}
+.tag{display:inline-block;background:#f0f3f9;border-radius:7px;padding:4px 7px;font-size:11px;margin:2px 3px 2px 0}
+.bought{background:#e6f8f0;color:#13845d}
+.actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.actions button{font-size:12px;padding:8px 10px}
+.overlay{position:fixed;inset:0;background:#101a30a8;display:none;align-items:flex-end;justify-content:center;z-index:5}
+.modal{background:white;border-radius:23px 23px 0 0;padding:22px;width:100%;max-width:650px;max-height:92vh;overflow:auto}
+.modal h2{margin-bottom:16px}
+label{display:block;font-size:12px;font-weight:700;margin:13px 0 6px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.full{grid-column:span 2}
+.footer{display:flex;gap:10px;margin-top:20px}
+.footer button{flex:1}
+.empty{text-align:center;color:var(--gray);padding:40px}
+@media(max-width:370px){.photo{width:75px;height:95px}.card{gap:9px}.stat strong{font-size:22px}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<div class="top">
+<div class="badge">🇯🇵 JAPAN 2026</div>
+<small>Our shopping wishlist ♡</small>
+</div>
+<h1>Japan Together 🛍️</h1>
+<small>สิ่งที่เราอยากซื้อในญี่ปุ่น</small>
+</div>
+</header>
+
+<main class="wrap">
+<section class="stats">
+<div class="stat"><strong id="total">0</strong><span>ทั้งหมด</span></div>
+<div class="stat"><strong id="pending">0</strong><span>ยังไม่ซื้อ</span></div>
+<div class="stat"><strong id="done">0</strong><span>ซื้อแล้ว</span></div>
+</section>
+
+<div class="progress">
+<div class="row"><strong>Shopping Progress</strong><strong id="percent">0%</strong></div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+</div>
+
+<div class="row">
+<h2>Shopping List</h2>
+<button class="primary" onclick="openForm()">＋ เพิ่มสินค้า</button>
+</div>
+
+<div class="filters">
+<input class="search" id="search" placeholder="🔎 ค้นหาสินค้า หรือชื่อร้าน">
+<select id="categoryFilter"><option value="">ทุกหมวดหมู่</option></select>
+<select id="ownerFilter">
+<option value="">ทุกคน</option>
+<option value="เรา">เรา</option>
+<option value="แฟน">แฟน</option>
+<option value="ทั้งคู่">ทั้งคู่</option>
+</select>
+<select id="statusFilter" class="search">
+<option value="">ทุกสถานะ</option>
+<option value="pending">ยังไม่ซื้อ</option>
+<option value="bought">ซื้อแล้ว</option>
+</select>
+</div>
+
+<div id="list"></div>
+</main>
+
+<div class="overlay" id="overlay">
+<div class="modal">
+<div class="row">
+<h2 id="formTitle">เพิ่มสินค้า</h2>
+<button class="secondary" onclick="closeForm()">✕</button>
+</div>
+<form id="productForm">
+<input type="hidden" id="editId">
+
+<label>ชื่อสินค้า *</label>
+<input id="productName" required placeholder="เช่น On Cloudtilt">
+
+<div class="formgrid">
+<div>
+<label>หมวดหมู่</label>
+<select id="productCategory"></select>
+</div>
+<div>
+<label>ใครอยากได้</label>
+<select id="productOwner">
+<option>เรา</option>
+<option>แฟน</option>
+<option>ทั้งคู่</option>
+</select>
+</div>
+<div>
+<label>ราคาไทย (฿)</label>
+<input id="priceTH" type="number" min="0" step="0.01">
+</div>
+<div>
+<label>ราคาญี่ปุ่น (¥)</label>
+<input id="priceJP" type="number" min="0" step="0.01">
+</div>
+<div>
+<label>จำนวน (ไม่บังคับ)</label>
+<input id="qty" type="number" min="1" step="1">
+</div>
+<div>
+<label>สถานะ</label>
+<select id="productStatus">
+<option value="pending">ยังไม่ซื้อ</option>
+<option value="bought">ซื้อแล้ว</option>
+</select>
+</div>
+<div class="full">
+<label>ร้านค้า / สถานที่ซื้อ</label>
+<input id="shop" placeholder="เช่น UNIQLO Ginza">
+</div>
+<div class="full">
+<label>รายละเอียดสินค้า / สี / ไซส์</label>
+<input id="description" placeholder="เช่น สีขาว Size US Men 7.5">
+</div>
+<div class="full">
+<label>ลิงก์รูปสินค้า (URL)</label>
+<input id="imageUrl" type="url" placeholder="https://...">
+</div>
+<div class="full">
+<label>หรือเลือกรูปจาก iPhone</label>
+<input id="imageFile" type="file" accept="image/*">
+</div>
+</div>
+<div class="footer">
+<button type="button" class="secondary" onclick="closeForm()">ยกเลิก</button>
+<button type="submit" class="primary" id="saveButton">บันทึกสินค้า</button>
+</div>
+</form>
+</div>
+</div>
+
+<script>
+const categories=[
+"รองเท้า","เสื้อผ้า","กระเป๋า","อาหาร","ขนม",
+"เครื่องสำอาง","ของใช้","อิเล็กทรอนิกส์","อื่นๆ"
+];
+const KEY="japan_together_v3";
+
+const samples=[
+{id:"1",name:"On Cloudtilt",category:"รองเท้า",owner:"เรา",
+description:"All White · US Men 7.5",priceTH:6600,
+priceJP:null,shop:"On / ร้านรองเท้า",qty:1,status:"pending",image:""},
+{id:"2",name:"UNIQLO เสื้อคลุม",category:"เสื้อผ้า",owner:"แฟน",
+description:"สีน้ำตาล · Women XL",priceTH:null,
+priceJP:null,shop:"UNIQLO",qty:1,status:"pending",image:""},
+{id:"3",name:"3COINS กระเป๋าพับได้",category:"กระเป๋า",owner:"ทั้งคู่",
+description:"กระเป๋าพับเก็บได้",priceTH:null,
+priceJP:null,shop:"3COINS",qty:1,status:"pending",image:""}
+];
+
+let products;
+try{
+const saved=localStorage.getItem(KEY);
+products=saved?JSON.parse(saved):samples;
+if(!Array.isArray(products))products=samples;
+}catch(e){products=samples;}
+
+const $=id=>document.getElementById(id);
+const money=(n,c)=>n===null||n===undefined||n===""?
+"ยังไม่ระบุ":new Intl.NumberFormat("th-TH",{
+style:"currency",currency:c,maximumFractionDigits:0
+}).format(n);
+
+function escapeHTML(s){
+return String(s??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",
+'"':"&quot;","'":"&#39;"
+})[c]);
+}
+function save(){
+try{
+localStorage.setItem(KEY,JSON.stringify(products));
+return true;
+}catch(e){
+alert("บันทึกไม่สำเร็จ พื้นที่เก็บข้อมูลอาจเต็ม กรุณาลองใช้รูปขนาดเล็กลง");
+return false;
+}
+}
+function init(){
+categories.forEach(c=>{
+$("categoryFilter").add(new Option(c,c));
+$("productCategory").add(new Option(c,c));
+});
+["search","categoryFilter","ownerFilter","statusFilter"]
+.forEach(id=>$(id).addEventListener(
+id==="search"?"input":"change",render));
+render();
+}
+function render(){
+const bought=products.filter(p=>p.status==="bought").length;
+$("total").textContent=products.length;
+$("pending").textContent=products.length-bought;
+$("done").textContent=bought;
+const percent=products.length?
+Math.round(bought/products.length*100):0;
+$("percent").textContent=percent+"%";
+$("fill").style.width=percent+"%";
+
+const q=$("search").value.toLowerCase().trim();
+const cat=$("categoryFilter").value;
+const owner=$("ownerFilter").value;
+const status=$("statusFilter").value;
+
+const filtered=products.filter(p=>
+(!q||[p.name,p.shop,p.description].join(" ").toLowerCase().includes(q))&&
+(!cat||p.category===cat)&&
+(!owner||p.owner===owner||p.owner==="ทั้งคู่")&&
+(!status||p.status===status)
+);
+
+$("list").innerHTML=filtered.length?"":'<div class="empty">ไม่พบสินค้าในรายการ 🛍️</div>';
+
+filtered.forEach(p=>{
+const card=document.createElement("div");
+card.className="card";
+const icons={"รองเท้า":"👟","เสื้อผ้า":"🧥","กระเป๋า":"👜",
+"อาหาร":"🍱","ขนม":"🍫","เครื่องสำอาง":"💄",
+"ของใช้":"🧴","อิเล็กทรอนิกส์":"📱"};
+const photo=document.createElement(p.image?"img":"div");
+photo.className="photo"+(p.image?"":" placeholder");
+if(p.image){
+photo.src=p.image;
+photo.alt=p.name;
+photo.onerror=()=>{
+const fallback=document.createElement("div");
+fallback.className="photo placeholder";
+fallback.textContent=icons[p.category]||"🛍️";
+photo.replaceWith(fallback);
+};
+}else photo.textContent=icons[p.category]||"🛍️";
+card.appendChild(photo);
+
+const info=document.createElement("div");
+info.className="info";
+info.innerHTML=`
+<div class="name">${escapeHTML(p.name)}</div>
+<div class="detail">${escapeHTML(p.description||"")}</div>
+<div class="price">${money(p.priceJP,"JPY")}</div>
+<div class="detail">🇹🇭 ไทย: ${money(p.priceTH,"THB")}</div>
+<div class="detail">📍 ${escapeHTML(p.shop||"ยังไม่ระบุร้าน")}</div>
+<div class="detail">จำนวน: ${p.qty||1}</div>
+<div>
+<span class="tag">${escapeHTML(p.category)}</span>
+<span class="tag">♡ ${escapeHTML(p.owner)}</span>
+<span class="tag ${p.status==="bought"?"bought":""}">
+${p.status==="bought"?"✓ ซื้อแล้ว":"○ ยังไม่ซื้อ"}</span>
+</div>
+<div class="actions">
+<button class="secondary toggle"> ${p.status==="bought"?"↩ ยังไม่ซื้อ":"✓ ซื้อแล้ว"}</button>
+<button class="secondary edit">แก้ไข</button>
+<button class="danger delete">ลบ</button>
+</div>`;
+info.querySelector(".toggle").onclick=()=>toggle(p.id);
+info.querySelector(".edit").onclick=()=>openForm(p.id);
+info.querySelector(".delete").onclick=()=>removeProduct(p.id);
+card.appendChild(info);
+$("list").appendChild(card);
+});
+}
+
+function toggle(id){
+const p=products.find(x=>x.id===id);
+if(!p)return;
+const old=p.status;
+p.status=old==="bought"?"pending":"bought";
+if(!save())p.status=old;
+render();
+}
+function removeProduct(id){
+if(!confirm("ต้องการลบสินค้านี้ใช่ไหม?"))return;
+const old=products;
+products=products.filter(p=>p.id!==id);
+if(!save())products=old;
+render();
+}
+function openForm(id){
+$("productForm").reset();
+$("editId").value="";
+$("formTitle").textContent="เพิ่มสินค้า";
+if(id){
+const p=products.find(x=>x.id===id);
+if(!p)return;
+$("formTitle").textContent="แก้ไขสินค้า";
+$("editId").value=p.id;
+$("productName").value=p.name;
+$("productCategory").value=p.category;
+$("productOwner").value=p.owner;
+$("priceTH").value=p.priceTH??"";
+$("priceJP").value=p.priceJP??"";
+$("qty").value=p.qty??"";
+$("productStatus").value=p.status;
+$("shop").value=p.shop??"";
+$("description").value=p.description??"";
+$("imageUrl").value=p.image?.startsWith("http")?p.image:"";
+}
+$("overlay").style.display="flex";
+}
+function closeForm(){$("overlay").style.display="none";}
+function readImage(file){
+return new Promise((resolve,reject)=>{
+const reader=new FileReader();
+reader.onload=()=>resolve(reader.result);
+reader.onerror=()=>reject(new Error("อ่านรูปไม่สำเร็จ"));
+reader.readAsDataURL(file);
+});
+}
+$("productForm").addEventListener("submit",async e=>{
+e.preventDefault();
+const btn=$("saveButton");
+btn.disabled=true;
+try{
+const id=$("editId").value;
+const existing=products.find(p=>p.id===id);
+const file=$("imageFile").files[0];
+let image=$("imageUrl").value.trim();
+if(file){
+if(file.size>500000)throw new Error(
+"รูปมีขนาดใหญ่เกินไป กรุณาเลือกรูปที่เล็กกว่า 500 KB");
+image=await readImage(file);
+}
+if(!file&&!image&&existing)image=existing.image||"";
+const number=id=>$(id).value===""?null:Number($(id).value);
+const item={
+id:id||String(Date.now())+Math.random().toString(36).slice(2),
+name:$("productName").value.trim(),
+category:$("productCategory").value,
+owner:$("productOwner").value,
+description:$("description").value.trim(),
+priceTH:number("priceTH"),
+priceJP:number("priceJP"),
+qty:number("qty")||1,
+shop:$("shop").value.trim(),
+status:$("productStatus").value,
+image
+};
+if(!item.name)throw new Error("กรุณาใส่ชื่อสินค้า");
+const old=products;
+products=id?products.map(p=>p.id===id?item:p):[item,...products];
+if(!save()){products=old;return;}
+closeForm();
+render();
+}catch(err){alert(err.message||"เกิดข้อผิดพลาด");}
+finally{btn.disabled=false;}
+});
+init();
+</script>
+</body>
+</html>
