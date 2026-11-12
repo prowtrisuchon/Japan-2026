@@ -4,10 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#6734c7">
+
 <title>Smart Basket</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -17,62 +20,128 @@
   --bg:#f6f2ff;
   --green:#167b58;
 }
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   background:var(--bg);
   color:var(--dark);
   font:15px Sarabun,Arial,sans-serif;
 }
-button,input,select{font:inherit}
-button{border:0;cursor:pointer;font-weight:700}
-.wrap{max-width:1080px;margin:auto;padding:0 16px}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.wrap{
+  max-width:1080px;
+  margin:auto;
+  padding:0 16px;
+}
+
+/* HEADER V8 */
 
 header{
-  background:linear-gradient(105deg,#49218e,#7d3fe2 55%,#b28cf2);
+  background:linear-gradient(
+    105deg,
+    #49218e,
+    #7d3fe2 55%,
+    #b28cf2
+  );
   color:white;
-  padding:32px 0 38px;
-}
-header h1{
-  font-size:clamp(34px,6vw,46px);
-  margin:10px 0;
-  line-height:1.15;
-}
-header p{
-  font-size:15px;
-  color:#f3eaff;
-  line-height:1.6;
-  margin:0;
-}
-.eyebrow{
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:1px;
+  padding:38px 0 42px;
 }
 
-main{padding-top:22px!important;padding-bottom:70px!important}
+.app-title{
+  font-family:"Space Grotesk",Arial,sans-serif;
+  font-size:clamp(42px,7vw,58px);
+  font-weight:700;
+  letter-spacing:-2px;
+  line-height:1.08;
+  margin:0 0 12px;
+  color:#fff;
+}
+
+.app-title .basket-icon{
+  font-size:.72em;
+  vertical-align:middle;
+  margin-left:5px;
+}
+
+.tagline{
+  font-family:"Space Grotesk",Arial,sans-serif;
+  font-size:clamp(16px,3.5vw,19px);
+  font-weight:600;
+  line-height:1.45;
+  color:#fff;
+  margin:0;
+}
+
+.description{
+  font-family:Sarabun,Arial,sans-serif;
+  font-size:14px;
+  font-weight:400;
+  line-height:1.7;
+  color:#f0e6ff;
+  margin:22px 0 0;
+  max-width:560px;
+}
+
+/* MAIN */
+
+main{
+  padding-top:22px!important;
+  padding-bottom:70px!important;
+}
 
 .stats{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
   gap:10px;
 }
+
 .stat,.progress,.toolbar,.card{
   background:white;
   border-radius:19px;
   border:1px solid #eee8f8;
 }
-.stat{padding:16px 8px;text-align:center}
-.stat b{display:block;font-size:27px}
-.stat span{font-size:13px;color:var(--muted)}
 
-.progress{padding:18px;margin:12px 0 20px}
+.stat{
+  padding:16px 8px;
+  text-align:center;
+}
+
+.stat b{
+  display:block;
+  font-size:27px;
+}
+
+.stat span{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.progress{
+  padding:18px;
+  margin:12px 0 20px;
+}
+
 .row{
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:10px;
 }
+
 .bar{
   height:9px;
   background:#efe8fa;
@@ -80,11 +149,14 @@ main{padding-top:22px!important;padding-bottom:70px!important}
   margin-top:12px;
   overflow:hidden;
 }
+
 #fill{
   height:100%;
   width:0;
   background:linear-gradient(90deg,#6634cc,#a77de8);
 }
+
+/* TABS */
 
 .tabs{
   display:grid;
@@ -95,22 +167,27 @@ main{padding-top:22px!important;padding-bottom:70px!important}
   gap:5px;
   margin-bottom:20px;
 }
+
 .tab{
   padding:13px 5px;
   border-radius:11px;
   background:transparent;
   color:#716580;
 }
+
 .tab.active{
   background:white;
   color:#6934c6;
   box-shadow:0 2px 9px #3d146b13;
 }
+
 .tab small{
   background:#eee6fb;
   border-radius:15px;
   padding:2px 8px;
 }
+
+/* BUTTONS */
 
 .primary{
   background:#7439d4;
@@ -119,12 +196,14 @@ main{padding-top:22px!important;padding-bottom:70px!important}
   padding:12px 16px;
   min-height:46px;
 }
+
 .secondary{
   background:#f1eaff;
   color:#6630c6;
   border-radius:12px;
   padding:10px;
 }
+
 .danger{
   background:#fff0f2;
   color:#c84058;
@@ -132,12 +211,19 @@ main{padding-top:22px!important;padding-bottom:70px!important}
   padding:10px;
 }
 
-.toolbar{padding:13px;margin:15px 0}
+/* FILTERS */
+
+.toolbar{
+  padding:13px;
+  margin:15px 0;
+}
+
 .filters{
   display:grid;
   grid-template-columns:2fr 1fr 1fr;
   gap:9px;
 }
+
 input,select{
   width:100%;
   min-width:0;
@@ -147,15 +233,19 @@ input,select{
   background:white;
   color:var(--dark);
 }
+
 input:focus,select:focus{
   outline:2px solid #c5a6ff;
 }
+
+/* PRODUCT CARDS */
 
 .cards{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:14px;
 }
+
 .card{
   padding:15px;
   display:flex;
@@ -163,11 +253,13 @@ input:focus,select:focus{
   gap:13px;
   min-width:0;
 }
+
 .card-main{
   display:grid;
   grid-template-columns:116px minmax(0,1fr);
   gap:14px;
 }
+
 .imagebox{
   width:116px;
   height:132px;
@@ -179,38 +271,45 @@ input:focus,select:focus{
   justify-content:center;
   font-size:40px;
 }
+
 .imagebox img{
   width:100%;
   height:100%;
   object-fit:contain;
 }
+
 .info{
   min-width:0;
   overflow-wrap:anywhere;
 }
+
 .name{
   font-size:18px;
   font-weight:800;
   line-height:1.35;
 }
+
 .desc,.shop,.thai{
   font-size:14px;
   color:var(--muted);
   margin-top:5px;
   line-height:1.45;
 }
+
 .yen{
   font-size:21px;
   color:var(--purple);
   font-weight:800;
   margin-top:7px;
 }
+
 .tags{
   display:flex;
   flex-wrap:wrap;
   gap:5px;
   margin-top:10px;
 }
+
 .tag{
   background:#f3eff9;
   color:#655778;
@@ -218,16 +317,22 @@ input:focus,select:focus{
   padding:4px 8px;
   font-size:12px;
 }
+
 .tag.done{
   background:#e7f8ef;
   color:var(--green);
 }
+
 .actions{
   display:grid;
   grid-template-columns:minmax(0,1fr) 46px 46px;
   gap:8px;
 }
-.actions button{min-height:45px}
+
+.actions button{
+  min-height:45px;
+}
+
 .empty{
   grid-column:1/-1;
   background:white;
@@ -236,6 +341,8 @@ input:focus,select:focus{
   text-align:center;
   color:var(--muted);
 }
+
+/* MODAL */
 
 .overlay{
   position:fixed;
@@ -247,7 +354,11 @@ input:focus,select:focus{
   padding:14px;
   z-index:20;
 }
-.overlay.open{display:flex}
+
+.overlay.open{
+  display:flex;
+}
+
 .modal{
   width:100%;
   max-width:610px;
@@ -257,24 +368,35 @@ input:focus,select:focus{
   border-radius:22px;
   padding:22px;
 }
+
 .formgrid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:0 12px;
 }
-.full{grid-column:span 2}
+
+.full{
+  grid-column:span 2;
+}
+
 label{
   display:block;
   font-weight:700;
   font-size:13px;
   margin:13px 0 6px;
 }
+
 .form-actions{
   display:flex;
   gap:10px;
   margin-top:20px;
 }
-.form-actions button{flex:1;min-height:46px}
+
+.form-actions button{
+  flex:1;
+  min-height:46px;
+}
+
 .preview{
   display:none;
   width:120px;
@@ -284,18 +406,21 @@ label{
   margin-top:10px;
   background:#f4effa;
 }
+
 .photo-controls{
   display:flex;
   gap:9px;
   margin-top:9px;
   flex-wrap:wrap;
 }
+
 .note{
   font-size:12px;
   color:var(--muted);
   line-height:1.5;
   margin-top:15px;
 }
+
 .toast{
   display:none;
   position:fixed;
@@ -312,45 +437,124 @@ label{
   max-width:90%;
 }
 
+/* MOBILE */
+
 @media(max-width:850px){
-  .cards{grid-template-columns:1fr}
-  .filters{grid-template-columns:1fr 1fr}
-  #search{grid-column:span 2}
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .filters{
+    grid-template-columns:1fr 1fr;
+  }
+
+  #search{
+    grid-column:span 2;
+  }
 }
+
 @media(max-width:520px){
-  header{padding:27px 0 30px}
-  .card{padding:12px}
+  header{
+    padding:33px 0 37px;
+  }
+
+  .app-title{
+    font-size:44px;
+    letter-spacing:-1.8px;
+    margin-bottom:12px;
+  }
+
+  .tagline{
+    font-size:16px;
+  }
+
+  .description{
+    font-size:13px;
+    margin-top:20px;
+  }
+
+  .card{
+    padding:12px;
+  }
+
   .card-main{
     grid-template-columns:96px minmax(0,1fr);
     gap:11px;
   }
-  .imagebox{width:96px;height:112px}
-  .name{font-size:17px}
-  .yen{font-size:20px}
+
+  .imagebox{
+    width:96px;
+    height:112px;
+  }
+
+  .name{
+    font-size:17px;
+  }
+
+  .yen{
+    font-size:20px;
+  }
+
   .actions{
     grid-template-columns:minmax(0,1fr) 44px 44px;
   }
-  .stat b{font-size:25px}
-  .modal{padding:17px}
-  .tab{font-size:14px}
+
+  .stat b{
+    font-size:25px;
+  }
+
+  .modal{
+    padding:17px;
+  }
+
+  .tab{
+    font-size:14px;
+  }
 }
 </style>
 </head>
 
 <body>
+
+<!-- HEADER V8 -->
+
 <header>
-<div class="wrap">
-  <div class="eyebrow">✦ JAPAN 2026 · SHOPPING WISHLIST</div>
-  <h1>Smart Basket 🛍️</h1>
-  <p>Create your wishlist, track purchases, and enjoy a seamless shopping experience wherever you go.</p>
-</div>
+  <div class="wrap">
+
+    <h1 class="app-title">
+      Smart Basket<span class="basket-icon">🛍️</span>
+    </h1>
+
+    <p class="tagline">
+      Your Shopping Companion, Wherever You Go.
+    </p>
+
+    <p class="description">
+      Create your wishlist, track purchases, and keep everything organized in one place.
+    </p>
+
+  </div>
 </header>
 
+<!-- MAIN -->
+
 <main class="wrap">
+
 <section class="stats">
-  <div class="stat"><b id="total">0</b><span>ทั้งหมด</span></div>
-  <div class="stat"><b id="pending">0</b><span>ยังไม่ซื้อ</span></div>
-  <div class="stat"><b id="done">0</b><span>ซื้อแล้ว</span></div>
+  <div class="stat">
+    <b id="total">0</b>
+    <span>ทั้งหมด</span>
+  </div>
+
+  <div class="stat">
+    <b id="pending">0</b>
+    <span>ยังไม่ซื้อ</span>
+  </div>
+
+  <div class="stat">
+    <b id="done">0</b>
+    <span>ซื้อแล้ว</span>
+  </div>
 </section>
 
 <section class="progress">
@@ -358,86 +562,145 @@ label{
     <strong>Shopping Progress</strong>
     <strong id="percent">0%</strong>
   </div>
-  <div class="bar"><div id="fill"></div></div>
+
+  <div class="bar">
+    <div id="fill"></div>
+  </div>
 </section>
 
 <nav class="tabs">
+
   <button class="tab active" id="tabPending">
-    🛍️ To Buy <small id="pendingCount">0</small>
+    🛍️ To Buy
+    <small id="pendingCount">0</small>
   </button>
+
   <button class="tab" id="tabBought">
-    ✓ Completed <small id="boughtCount">0</small>
+    ✓ Completed
+    <small id="boughtCount">0</small>
   </button>
+
 </nav>
 
 <div class="row">
   <h2 id="listTitle">To Buy</h2>
-  <button class="primary" id="addBtn">＋ เพิ่มสินค้า</button>
+  <button class="primary" id="addBtn">
+    ＋ เพิ่มสินค้า
+  </button>
 </div>
 
 <section class="toolbar">
   <div class="filters">
-    <input id="search" placeholder="🔎 ค้นหาสินค้าหรือร้านค้า">
+
+    <input
+      id="search"
+      placeholder="🔎 ค้นหาสินค้าหรือร้านค้า"
+    >
+
     <select id="categoryFilter">
       <option value="">ทุกหมวดหมู่</option>
     </select>
+
+    <!-- OWNER FILTER V8 -->
+
     <select id="ownerFilter">
-      <option value="">ทุกคน</option>
-      <option>มะหมี</option>
-      <option>น้องจู้</option>
-      <option>ทั้งคู่</option>
-      <option>เพื่อนฝาก</option>
+      <option value="">ทั้งหมด</option>
+      <option value="-">-</option>
+      <option value="มะหมี">มะหมี</option>
+      <option value="น้องจู้">น้องจู้</option>
+      <option value="ทั้งคู่">ทั้งคู่</option>
+      <option value="เพื่อนฝาก">เพื่อนฝาก</option>
     </select>
+
   </div>
 </section>
 
 <section class="cards" id="list"></section>
 
 <p class="note">
-ข้อมูลและรูปภาพยังบันทึกเฉพาะในเบราว์เซอร์นี้
-ยังไม่ซิงก์ระหว่างสองเครื่องจนกว่าจะเชื่อม Firebase
+  ข้อมูลและรูปภาพยังบันทึกเฉพาะในเบราว์เซอร์นี้
+  ยังไม่ซิงก์ระหว่างสองเครื่องจนกว่าจะเชื่อม Firebase
 </p>
+
 </main>
 
+<!-- PRODUCT FORM -->
+
 <div class="overlay" id="overlay">
+
 <div class="modal">
+
   <div class="row">
     <h2 id="formTitle">เพิ่มสินค้า</h2>
-    <button class="secondary" id="closeBtn" type="button">✕</button>
+    <button class="secondary" id="closeBtn" type="button">
+      ✕
+    </button>
   </div>
 
   <form id="form">
+
     <input id="editId" type="hidden">
 
     <label>ชื่อสินค้า *</label>
-    <input id="productName" required placeholder="เช่น On Cloudtilt">
+
+    <input
+      id="productName"
+      required
+      placeholder="เช่น On Cloudtilt"
+    >
 
     <div class="formgrid">
+
       <div>
         <label>หมวดหมู่</label>
         <select id="category"></select>
       </div>
+
+      <!-- OWNER DROPDOWN V8 -->
+
       <div>
         <label>ใครอยากได้</label>
+
         <select id="owner">
-          <option>มะหมี</option>
-          <option>น้องจู้</option>
-          <option>ทั้งคู่</option>
-          <option>เพื่อนฝาก</option>
+          <option value="-" selected>-</option>
+          <option value="มะหมี">มะหมี</option>
+          <option value="น้องจู้">น้องจู้</option>
+          <option value="ทั้งคู่">ทั้งคู่</option>
+          <option value="เพื่อนฝาก">เพื่อนฝาก</option>
         </select>
       </div>
+
       <div>
         <label>ราคาไทย (฿)</label>
-        <input id="priceTH" type="number" min="0" step=".01">
+        <input
+          id="priceTH"
+          type="number"
+          min="0"
+          step=".01"
+        >
       </div>
+
       <div>
         <label>ราคาญี่ปุ่น (¥)</label>
-        <input id="priceJP" type="number" min="0" step=".01">
+        <input
+          id="priceJP"
+          type="number"
+          min="0"
+          step=".01"
+        >
       </div>
+
       <div>
         <label>จำนวน (ไม่บังคับ)</label>
-        <input id="qty" type="number" min="1" step="1" placeholder="1">
+        <input
+          id="qty"
+          type="number"
+          min="1"
+          step="1"
+          placeholder="1"
+        >
       </div>
+
       <div>
         <label>สถานะ</label>
         <select id="status">
@@ -445,44 +708,100 @@ label{
           <option value="bought">ซื้อแล้ว</option>
         </select>
       </div>
+
       <div class="full">
         <label>ร้านค้า / สถานที่ซื้อ</label>
-        <input id="shop" placeholder="เช่น UNIQLO Ginza">
-      </div>
-      <div class="full">
-        <label>สี / ไซส์ / รายละเอียด</label>
-        <input id="description" placeholder="เช่น All White · US Men 7.5">
+        <input
+          id="shop"
+          placeholder="เช่น UNIQLO Ginza"
+        >
       </div>
 
       <div class="full">
+        <label>สี / ไซส์ / รายละเอียด</label>
+        <input
+          id="description"
+          placeholder="เช่น All White · US Men 7.5"
+        >
+      </div>
+
+      <!-- IMAGE UPLOAD -->
+
+      <div class="full">
+
         <label>📸 รูปสินค้า / Screenshot</label>
-        <input id="photoFile" type="file" accept="image/*">
+
+        <input
+          id="photoFile"
+          type="file"
+          accept="image/*"
+        >
+
         <div class="photo-controls">
-          <button type="button" class="secondary" id="pasteBtn">
+
+          <button
+            type="button"
+            class="secondary"
+            id="pasteBtn"
+          >
             📋 วางรูปที่คัดลอก
           </button>
-          <button type="button" class="danger" id="clearPhotoBtn">
+
+          <button
+            type="button"
+            class="danger"
+            id="clearPhotoBtn"
+          >
             ลบรูป
           </button>
+
         </div>
-        <img id="preview" class="preview" alt="ตัวอย่างรูปสินค้า">
+
+        <img
+          id="preview"
+          class="preview"
+          alt="ตัวอย่างรูปสินค้า"
+        >
+
         <p class="note">
           เลือกรูปจาก Photos หรือ Screenshot ได้โดยตรง
           ระบบจะย่อรูปก่อนบันทึก
         </p>
+
       </div>
 
       <div class="full">
+
         <label>หรือใส่ลิงก์รูปภาพ</label>
-        <input id="imageUrl" type="url" placeholder="https://...">
+
+        <input
+          id="imageUrl"
+          type="url"
+          placeholder="https://..."
+        >
+
       </div>
+
     </div>
 
     <div class="form-actions">
-      <button type="button" class="secondary" id="cancelBtn">ยกเลิก</button>
-      <button type="submit" class="primary">บันทึกสินค้า</button>
+
+      <button
+        type="button"
+        class="secondary"
+        id="cancelBtn"
+      >
+        ยกเลิก
+      </button>
+
+      <button type="submit" class="primary">
+        บันทึกสินค้า
+      </button>
+
     </div>
+
   </form>
+
 </div>
 </div>
 
@@ -491,502 +810,1100 @@ label{
 <script>
 "use strict";
 
+/* STORAGE: SAME AS V7 */
+
 const KEY = "japan_together_v3";
 
 const CATEGORIES = [
-  "รองเท้า","เสื้อผ้า","กระเป๋า","อาหาร","ขนม",
-  "เครื่องสำอาง","ของใช้","อิเล็กทรอนิกส์","อื่นๆ"
+  "รองเท้า",
+  "เสื้อผ้า",
+  "กระเป๋า",
+  "อาหาร",
+  "ขนม",
+  "เครื่องสำอาง",
+  "ของใช้",
+  "อิเล็กทรอนิกส์",
+  "อื่นๆ"
 ];
 
 const ICONS = {
-  "รองเท้า":"👟","เสื้อผ้า":"🧥","กระเป๋า":"👜",
-  "อาหาร":"🍱","ขนม":"🍫","เครื่องสำอาง":"💄",
-  "ของใช้":"🧴","อิเล็กทรอนิกส์":"📱"
+  "รองเท้า":"👟",
+  "เสื้อผ้า":"🧥",
+  "กระเป๋า":"👜",
+  "อาหาร":"🍱",
+  "ขนม":"🍫",
+  "เครื่องสำอาง":"💄",
+  "ของใช้":"🧴",
+  "อิเล็กทรอนิกส์":"📱"
 };
 
 const SAMPLE = [
   {
-    id:"1",name:"On Cloudtilt",category:"รองเท้า",
-    owner:"มะหมี",description:"All White · US Men 7.5",
-    priceTH:6600,priceJP:null,shop:"On / ร้านรองเท้า",
-    qty:1,status:"pending",image:""
+    id:"1",
+    name:"On Cloudtilt",
+    category:"รองเท้า",
+    owner:"มะหมี",
+    description:"All White · US Men 7.5",
+    priceTH:6600,
+    priceJP:null,
+    shop:"On / ร้านรองเท้า",
+    qty:1,
+    status:"pending",
+    image:""
   },
   {
-    id:"2",name:"UNIQLO เสื้อคลุม",category:"เสื้อผ้า",
-    owner:"น้องจู้",description:"สีน้ำตาล · Women XL",
-    priceTH:null,priceJP:null,shop:"UNIQLO",
-    qty:1,status:"pending",image:""
+    id:"2",
+    name:"UNIQLO เสื้อคลุม",
+    category:"เสื้อผ้า",
+    owner:"น้องจู้",
+    description:"สีน้ำตาล · Women XL",
+    priceTH:null,
+    priceJP:null,
+    shop:"UNIQLO",
+    qty:1,
+    status:"pending",
+    image:""
   },
   {
-    id:"3",name:"3COINS กระเป๋าพับได้",category:"กระเป๋า",
-    owner:"ทั้งคู่",description:"กระเป๋าพับเก็บได้",
-    priceTH:null,priceJP:null,shop:"3COINS",
-    qty:1,status:"pending",image:""
+    id:"3",
+    name:"3COINS กระเป๋าพับได้",
+    category:"กระเป๋า",
+    owner:"ทั้งคู่",
+    description:"กระเป๋าพับเก็บได้",
+    priceTH:null,
+    priceJP:null,
+    shop:"3COINS",
+    qty:1,
+    status:"pending",
+    image:""
   }
 ];
 
 const $ = id => document.getElementById(id);
+
 let products;
 
 try {
   const raw = localStorage.getItem(KEY);
-  products = raw ? JSON.parse(raw) : SAMPLE.map(x=>({...x}));
-  if(!Array.isArray(products)) throw Error("Invalid data");
+
+  products = raw
+    ? JSON.parse(raw)
+    : SAMPLE.map(x=>({...x}));
+
+  if(!Array.isArray(products)){
+    throw Error("Invalid data");
+  }
+
 } catch(e) {
   products = SAMPLE.map(x=>({...x}));
 }
 
+/* OWNER MIGRATION */
+
 products = products.map(p=>({
   ...p,
-  owner:p.owner==="เรา"?"มะหมี":
-        p.owner==="แฟน"?"น้องจู้":p.owner
+  owner:
+    p.owner==="เรา" ? "มะหมี" :
+    p.owner==="แฟน" ? "น้องจู้" :
+    (p.owner || "-")
 }));
 
 let active = "pending";
+
 let pendingImage = null;
 let photoRemoved = false;
 let processing = false;
+
 const imageCache = new Map();
 
+/* NOTIFICATION */
+
 function notify(message){
-  const el=$("toast");
-  el.textContent=message;
-  el.style.display="block";
+
+  const el = $("toast");
+
+  el.textContent = message;
+  el.style.display = "block";
+
   clearTimeout(notify.timer);
-  notify.timer=setTimeout(()=>el.style.display="none",3000);
+
+  notify.timer = setTimeout(()=>{
+    el.style.display = "none";
+  },3000);
+
 }
+
+/* SAVE */
 
 function save(){
+
   try{
-    localStorage.setItem(KEY,JSON.stringify(products));
+
+    localStorage.setItem(
+      KEY,
+      JSON.stringify(products)
+    );
+
     return true;
+
   }catch(e){
-    notify("พื้นที่จัดเก็บเต็ม กรุณาใช้รูปที่เล็กลง");
+
+    notify(
+      "พื้นที่จัดเก็บเต็ม กรุณาใช้รูปที่เล็กลง"
+    );
+
     return false;
+
   }
+
 }
+
+/* CURRENCY */
 
 function money(v,c){
-  if(v===null||v===undefined||v==="") return "ยังไม่ระบุ";
-  return new Intl.NumberFormat("th-TH",{
-    style:"currency",currency:c,maximumFractionDigits:0
-  }).format(v);
+
+  if(
+    v===null ||
+    v===undefined ||
+    v===""
+  ){
+    return "ยังไม่ระบุ";
+  }
+
+  return new Intl.NumberFormat(
+    "th-TH",
+    {
+      style:"currency",
+      currency:c,
+      maximumFractionDigits:0
+    }
+  ).format(v);
+
 }
+
+/* SAFE HTML */
 
 function esc(s){
-  return String(s??"").replace(/[&<>"']/g,c=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",
-    '"':"&quot;","'":"&#39;"
-  }[c]));
+
+  return String(s??"").replace(
+    /[&<>"']/g,
+    c=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+
 }
 
+/* AUTOMATIC IMAGE LOOKUP */
+
 function imageTerm(p){
-  return [p.name,p.description].filter(Boolean).join(" ").trim();
+
+  return [
+    p.name,
+    p.description
+  ]
+  .filter(Boolean)
+  .join(" ")
+  .trim();
+
 }
 
 function relevance(title,term){
-  const tokens=term.toLowerCase().split(/\s+/)
-    .filter(t=>t.length>2&&!["women","size","white","brown"].includes(t));
-  if(!tokens.length)return 0;
-  const t=title.toLowerCase();
-  return tokens.filter(x=>t.includes(x)).length/tokens.length;
+
+  const tokens = term
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(t=>
+      t.length>2 &&
+      ![
+        "women",
+        "size",
+        "white",
+        "brown"
+      ].includes(t)
+    );
+
+  if(!tokens.length){
+    return 0;
+  }
+
+  const t = title.toLowerCase();
+
+  return tokens.filter(
+    x=>t.includes(x)
+  ).length/tokens.length;
+
 }
 
 async function findImage(p){
-  const term=imageTerm(p);
-  if(imageCache.has(term))return imageCache.get(term);
 
-  const task=(async()=>{
+  const term = imageTerm(p);
+
+  if(imageCache.has(term)){
+    return imageCache.get(term);
+  }
+
+  const task = (async()=>{
+
     try{
-      const api="https://commons.wikimedia.org/w/api.php"+
+
+      const api =
+        "https://commons.wikimedia.org/w/api.php"+
         "?action=query&generator=search"+
         "&gsrsearch="+encodeURIComponent(term)+
         "&gsrnamespace=6&gsrlimit=20"+
         "&prop=imageinfo&iiprop=url&iiurlwidth=360"+
         "&format=json&origin=*";
 
-      const res=await fetch(api);
-      if(!res.ok)throw Error("Search failed");
-      const data=await res.json();
+      const res = await fetch(api);
 
-      const candidates=Object.values(data.query?.pages||{})
-        .filter(x=>x.imageinfo?.[0]?.thumburl &&
-          /\.(jpg|jpeg|png|webp)$/i.test(x.title||""))
-        .map(x=>({
-          url:x.imageinfo[0].thumburl,
-          score:relevance(x.title,term)
-        }))
-        .sort((a,b)=>b.score-a.score);
+      if(!res.ok){
+        throw Error("Search failed");
+      }
 
-      return candidates[0]?.score>=0.85?candidates[0].url:"";
+      const data = await res.json();
+
+      const candidates = Object.values(
+        data.query?.pages || {}
+      )
+      .filter(x=>
+        x.imageinfo?.[0]?.thumburl &&
+        /\.(jpg|jpeg|png|webp)$/i.test(
+          x.title || ""
+        )
+      )
+      .map(x=>({
+        url:x.imageinfo[0].thumburl,
+        score:relevance(x.title,term)
+      }))
+      .sort((a,b)=>b.score-a.score);
+
+      return candidates[0]?.score>=0.85
+        ? candidates[0].url
+        : "";
+
     }catch(e){
+
       return "";
+
     }
+
   })();
 
   imageCache.set(term,task);
+
   return task;
+
 }
 
 function renderPhoto(p,box){
-  box.textContent=ICONS[p.category]||"🛍️";
 
-  const use=url=>{
-    if(!url||!box.isConnected)return;
-    const img=new Image();
-    img.alt=p.name;
-    img.onload=()=>{
-      if(box.isConnected)box.replaceChildren(img);
+  box.textContent =
+    ICONS[p.category] || "🛍️";
+
+  const use = url=>{
+
+    if(!url || !box.isConnected){
+      return;
+    }
+
+    const img = new Image();
+
+    img.alt = p.name;
+
+    img.onload = ()=>{
+
+      if(box.isConnected){
+        box.replaceChildren(img);
+      }
+
     };
-    img.src=url;
+
+    img.src = url;
+
   };
 
-  if(p.image)use(p.image);
-  else findImage(p).then(use);
+  if(p.image){
+    use(p.image);
+  }else{
+    findImage(p).then(use);
+  }
+
 }
 
+/* RENDER */
+
 function render(){
-  const bought=products.filter(p=>p.status==="bought").length;
-  const pending=products.length-bought;
 
-  $("total").textContent=products.length;
-  $("pending").textContent=pending;
-  $("done").textContent=bought;
-  $("pendingCount").textContent=pending;
-  $("boughtCount").textContent=bought;
+  const bought = products.filter(
+    p=>p.status==="bought"
+  ).length;
 
-  const pct=products.length?Math.round(100*bought/products.length):0;
-  $("percent").textContent=pct+"%";
-  $("fill").style.width=pct+"%";
+  const pending = products.length-bought;
 
-  $("tabPending").classList.toggle("active",active==="pending");
-  $("tabBought").classList.toggle("active",active==="bought");
-  $("listTitle").textContent=active==="pending"?"To Buy":"Completed";
+  $("total").textContent = products.length;
+  $("pending").textContent = pending;
+  $("done").textContent = bought;
 
-  const q=$("search").value.trim().toLowerCase();
-  const cat=$("categoryFilter").value;
-  const owner=$("ownerFilter").value;
+  $("pendingCount").textContent = pending;
+  $("boughtCount").textContent = bought;
 
-  const visible=products.filter(p=>
-    p.status===active &&
-    (!q||[p.name,p.description,p.shop].join(" ").toLowerCase().includes(q)) &&
-    (!cat||p.category===cat) &&
-    (!owner||p.owner===owner)
+  const pct = products.length
+    ? Math.round(100*bought/products.length)
+    : 0;
+
+  $("percent").textContent = pct+"%";
+  $("fill").style.width = pct+"%";
+
+  $("tabPending").classList.toggle(
+    "active",
+    active==="pending"
   );
 
-  const list=$("list");
+  $("tabBought").classList.toggle(
+    "active",
+    active==="bought"
+  );
+
+  $("listTitle").textContent =
+    active==="pending"
+      ? "To Buy"
+      : "Completed";
+
+  const q = $("search")
+    .value
+    .trim()
+    .toLowerCase();
+
+  const cat = $("categoryFilter").value;
+  const owner = $("ownerFilter").value;
+
+  const visible = products.filter(p=>
+
+    p.status===active &&
+
+    (
+      !q ||
+      [
+        p.name,
+        p.description,
+        p.shop
+      ]
+      .join(" ")
+      .toLowerCase()
+      .includes(q)
+    ) &&
+
+    (
+      !cat ||
+      p.category===cat
+    ) &&
+
+    (
+      !owner ||
+      (p.owner || "-")===owner
+    )
+
+  );
+
+  const list = $("list");
+
   list.replaceChildren();
 
   if(!visible.length){
-    const empty=document.createElement("div");
-    empty.className="empty";
-    empty.textContent=active==="pending"
-      ?"ไม่มีรายการที่ต้องซื้อ 🛍️"
-      :"ยังไม่มีรายการที่ซื้อแล้ว ✓";
+
+    const empty = document.createElement("div");
+
+    empty.className = "empty";
+
+    empty.textContent =
+      active==="pending"
+        ? "ไม่มีรายการที่ต้องซื้อ 🛍️"
+        : "ยังไม่มีรายการที่ซื้อแล้ว ✓";
+
     list.append(empty);
+
     return;
+
   }
 
   for(const p of visible){
-    const card=document.createElement("article");
-    card.className="card";
 
-    const main=document.createElement("div");
-    main.className="card-main";
+    const card = document.createElement("article");
 
-    const photo=document.createElement("div");
-    photo.className="imagebox";
+    card.className = "card";
 
-    const info=document.createElement("div");
-    info.className="info";
+    const main = document.createElement("div");
 
-    info.innerHTML=`
-      <div class="name">${esc(p.name)}</div>
-      <div class="desc">${esc(p.description||"")}</div>
-      <div class="yen">${money(p.priceJP,"JPY")}</div>
-      <div class="thai">🇹🇭 ราคาไทย: ${money(p.priceTH,"THB")}</div>
-      <div class="shop">📍 ${esc(p.shop||"ยังไม่ระบุร้าน")}</div>
-      <div class="shop">จำนวน ${esc(p.qty||1)} ชิ้น</div>
+    main.className = "card-main";
+
+    const photo = document.createElement("div");
+
+    photo.className = "imagebox";
+
+    const info = document.createElement("div");
+
+    info.className = "info";
+
+    info.innerHTML = `
+      <div class="name">
+        ${esc(p.name)}
+      </div>
+
+      <div class="desc">
+        ${esc(p.description||"")}
+      </div>
+
+      <div class="yen">
+        ${money(p.priceJP,"JPY")}
+      </div>
+
+      <div class="thai">
+        🇹🇭 ราคาไทย:
+        ${money(p.priceTH,"THB")}
+      </div>
+
+      <div class="shop">
+        📍 ${esc(p.shop||"ยังไม่ระบุร้าน")}
+      </div>
+
+      <div class="shop">
+        จำนวน ${esc(p.qty||1)} ชิ้น
+      </div>
+
       <div class="tags">
-        <span class="tag">${esc(p.category)}</span>
-        <span class="tag">♡ ${esc(p.owner)}</span>
-        <span class="tag ${p.status==="bought"?"done":""}">
-          ${p.status==="bought"?"✓ ซื้อแล้ว":"○ ยังไม่ซื้อ"}
+
+        <span class="tag">
+          ${esc(p.category)}
         </span>
+
+        <span class="tag">
+          ♡ ${esc(p.owner||"-")}
+        </span>
+
+        <span class="tag ${
+          p.status==="bought" ? "done" : ""
+        }">
+          ${
+            p.status==="bought"
+              ? "✓ ซื้อแล้ว"
+              : "○ ยังไม่ซื้อ"
+          }
+        </span>
+
       </div>
     `;
 
     main.append(photo,info);
 
-    const actions=document.createElement("div");
-    actions.className="actions";
+    const actions = document.createElement("div");
 
-    const toggle=document.createElement("button");
-    toggle.className=p.status==="bought"
-      ?"secondary toggle":"primary toggle";
-    toggle.textContent=p.status==="bought"?"↩ ยังไม่ซื้อ":"✓ ซื้อแล้ว";
-    toggle.onclick=()=>toggleStatus(p.id);
+    actions.className = "actions";
 
-    const edit=document.createElement("button");
-    edit.className="secondary";
-    edit.textContent="✎";
-    edit.setAttribute("aria-label","แก้ไข");
-    edit.onclick=()=>openForm(p.id);
+    const toggle = document.createElement("button");
 
-    const del=document.createElement("button");
-    del.className="danger";
-    del.textContent="🗑";
-    del.setAttribute("aria-label","ลบ");
-    del.onclick=()=>removeProduct(p.id);
+    toggle.className =
+      p.status==="bought"
+        ? "secondary toggle"
+        : "primary toggle";
+
+    toggle.textContent =
+      p.status==="bought"
+        ? "↩ ยังไม่ซื้อ"
+        : "✓ ซื้อแล้ว";
+
+    toggle.onclick = ()=>toggleStatus(p.id);
+
+    const edit = document.createElement("button");
+
+    edit.className = "secondary";
+    edit.textContent = "✎";
+
+    edit.setAttribute(
+      "aria-label",
+      "แก้ไข"
+    );
+
+    edit.onclick = ()=>openForm(p.id);
+
+    const del = document.createElement("button");
+
+    del.className = "danger";
+    del.textContent = "🗑";
+
+    del.setAttribute(
+      "aria-label",
+      "ลบ"
+    );
+
+    del.onclick = ()=>removeProduct(p.id);
 
     actions.append(toggle,edit,del);
+
     card.append(main,actions);
+
     list.append(card);
+
     renderPhoto(p,photo);
+
   }
+
 }
+
+/* PURCHASE STATUS */
 
 function toggleStatus(id){
-  const p=products.find(x=>x.id===id);
-  if(!p)return;
-  const old=p.status;
-  p.status=old==="bought"?"pending":"bought";
 
-  if(!save()){
-    p.status=old;
+  const p = products.find(
+    x=>x.id===id
+  );
+
+  if(!p){
     return;
   }
+
+  const old = p.status;
+
+  p.status =
+    old==="bought"
+      ? "pending"
+      : "bought";
+
+  if(!save()){
+
+    p.status = old;
+
+    return;
+
+  }
+
   render();
-  notify(p.status==="bought"
-    ?"ย้ายไป Completed แล้ว ✓"
-    :"ย้ายกลับ To Buy แล้ว");
+
+  notify(
+    p.status==="bought"
+      ? "ย้ายไป Completed แล้ว ✓"
+      : "ย้ายกลับ To Buy แล้ว"
+  );
+
 }
+
+/* DELETE */
 
 function removeProduct(id){
-  if(!confirm("ลบสินค้านี้ออกจากรายการ?"))return;
-  const old=products;
-  products=products.filter(x=>x.id!==id);
-  if(!save())products=old;
+
+  if(!confirm("ลบสินค้านี้ออกจากรายการ?")){
+    return;
+  }
+
+  const old = products;
+
+  products = products.filter(
+    x=>x.id!==id
+  );
+
+  if(!save()){
+    products = old;
+  }
+
   render();
+
 }
+
+/* IMAGE PREVIEW */
 
 function showPreview(src){
-  const preview=$("preview");
-  preview.style.display=src?"block":"none";
-  if(src)preview.src=src;
-  else preview.removeAttribute("src");
+
+  const preview = $("preview");
+
+  preview.style.display =
+    src ? "block" : "none";
+
+  if(src){
+    preview.src = src;
+  }else{
+    preview.removeAttribute("src");
+  }
+
 }
 
+/* OPEN FORM */
+
 function openForm(id){
+
   $("form").reset();
-  $("editId").value="";
-  $("formTitle").textContent="เพิ่มสินค้า";
-  $("status").value=active;
-  pendingImage=null;
-  photoRemoved=false;
+
+  $("editId").value = "";
+
+  $("formTitle").textContent = "เพิ่มสินค้า";
+
+  $("status").value = active;
+
+  /* V8 DEFAULT OWNER */
+
+  $("owner").value = "-";
+
+  pendingImage = null;
+  photoRemoved = false;
+
   showPreview("");
 
   if(id){
-    const p=products.find(x=>x.id===id);
-    if(!p)return;
 
-    $("formTitle").textContent="แก้ไขสินค้า";
-    $("editId").value=String(p.id);
-    $("productName").value=p.name;
-    $("category").value=p.category;
-    $("owner").value=p.owner;
-    $("priceTH").value=p.priceTH??"";
-    $("priceJP").value=p.priceJP??"";
-    $("qty").value=p.qty??"";
-    $("status").value=p.status;
-    $("shop").value=p.shop||"";
-    $("description").value=p.description||"";
+    const p = products.find(
+      x=>x.id===id
+    );
+
+    if(!p){
+      return;
+    }
+
+    $("formTitle").textContent = "แก้ไขสินค้า";
+
+    $("editId").value = String(p.id);
+
+    $("productName").value = p.name;
+
+    $("category").value = p.category;
+
+    $("owner").value = p.owner || "-";
+
+    $("priceTH").value = p.priceTH??"";
+
+    $("priceJP").value = p.priceJP??"";
+
+    $("qty").value = p.qty??"";
+
+    $("status").value = p.status;
+
+    $("shop").value = p.shop||"";
+
+    $("description").value = p.description||"";
 
     if(p.image?.startsWith("data:")){
+
       showPreview(p.image);
+
     }else if(p.image?.startsWith("http")){
-      $("imageUrl").value=p.image;
+
+      $("imageUrl").value = p.image;
+
       showPreview(p.image);
+
     }
+
   }
 
   $("overlay").classList.add("open");
+
 }
 
 function closeForm(){
+
   $("overlay").classList.remove("open");
+
 }
 
+/* COMPRESS IMAGE */
+
 function compressImage(file){
+
   return new Promise((resolve,reject)=>{
+
     if(!file.type.startsWith("image/")){
-      return reject(Error("ไม่ใช่ไฟล์รูปภาพ"));
+
+      return reject(
+        Error("ไม่ใช่ไฟล์รูปภาพ")
+      );
+
     }
 
-    const reader=new FileReader();
-    reader.onerror=()=>reject(Error("อ่านรูปไม่สำเร็จ"));
+    const reader = new FileReader();
 
-    reader.onload=()=>{
-      const img=new Image();
-      img.onerror=()=>reject(Error("เปิดรูปไม่สำเร็จ"));
+    reader.onerror = ()=>reject(
+      Error("อ่านรูปไม่สำเร็จ")
+    );
 
-      img.onload=()=>{
-        const max=900;
-        const scale=Math.min(1,max/Math.max(img.width,img.height));
-        const canvas=document.createElement("canvas");
+    reader.onload = ()=>{
 
-        canvas.width=Math.max(1,Math.round(img.width*scale));
-        canvas.height=Math.max(1,Math.round(img.height*scale));
+      const img = new Image();
 
-        const ctx=canvas.getContext("2d");
-        ctx.fillStyle="#fff";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      img.onerror = ()=>reject(
+        Error("เปิดรูปไม่สำเร็จ")
+      );
 
-        resolve(canvas.toDataURL("image/jpeg",0.72));
+      img.onload = ()=>{
+
+        const max = 900;
+
+        const scale = Math.min(
+          1,
+          max/Math.max(
+            img.width,
+            img.height
+          )
+        );
+
+        const canvas = document.createElement(
+          "canvas"
+        );
+
+        canvas.width = Math.max(
+          1,
+          Math.round(img.width*scale)
+        );
+
+        canvas.height = Math.max(
+          1,
+          Math.round(img.height*scale)
+        );
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "#fff";
+
+        ctx.fillRect(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
+        resolve(
+          canvas.toDataURL(
+            "image/jpeg",
+            0.72
+          )
+        );
+
       };
 
-      img.src=reader.result;
+      img.src = reader.result;
+
     };
 
     reader.readAsDataURL(file);
+
   });
+
 }
+
+/* ACCEPT IMAGE */
 
 async function acceptImage(file){
-  if(!file)return;
-  processing=true;
+
+  if(!file){
+    return;
+  }
+
+  processing = true;
 
   try{
-    pendingImage=await compressImage(file);
-    photoRemoved=false;
-    $("imageUrl").value="";
+
+    pendingImage = await compressImage(file);
+
+    photoRemoved = false;
+
+    $("imageUrl").value = "";
+
     showPreview(pendingImage);
+
     notify("เพิ่มรูปเรียบร้อย");
+
   }catch(e){
-    notify(e.message||"ไม่สามารถอ่านรูปได้");
+
+    notify(
+      e.message || "ไม่สามารถอ่านรูปได้"
+    );
+
   }finally{
-    processing=false;
+
+    processing = false;
+
   }
+
 }
 
-$("photoFile").addEventListener("change",e=>{
-  acceptImage(e.target.files?.[0]);
-});
+/* FILE UPLOAD */
 
-$("pasteBtn").onclick=async()=>{
+$("photoFile").addEventListener(
+  "change",
+  e=>{
+    acceptImage(
+      e.target.files?.[0]
+    );
+  }
+);
+
+/* PASTE IMAGE */
+
+$("pasteBtn").onclick = async()=>{
+
   if(!navigator.clipboard?.read){
-    notify("เบราว์เซอร์ไม่รองรับการวางรูป กรุณาเลือกรูปจาก Photos");
+
+    notify(
+      "เบราว์เซอร์ไม่รองรับการวางรูป กรุณาเลือกรูปจาก Photos"
+    );
+
     return;
+
   }
 
   try{
-    const items=await navigator.clipboard.read();
+
+    const items = await navigator.clipboard.read();
+
     for(const item of items){
-      const type=item.types.find(t=>t.startsWith("image/"));
+
+      const type = item.types.find(
+        t=>t.startsWith("image/")
+      );
+
       if(type){
-        const blob=await item.getType(type);
+
+        const blob = await item.getType(type);
+
         await acceptImage(blob);
+
         return;
+
       }
+
     }
+
     notify("ไม่มีรูปภาพในคลิปบอร์ด");
+
   }catch(e){
-    notify("ไม่สามารถวางรูปได้ กรุณาเลือกรูปจาก Photos");
+
+    notify(
+      "ไม่สามารถวางรูปได้ กรุณาเลือกรูปจาก Photos"
+    );
+
   }
+
 };
 
-$("clearPhotoBtn").onclick=()=>{
-  pendingImage=null;
-  photoRemoved=true;
-  $("photoFile").value="";
-  $("imageUrl").value="";
+/* CLEAR PHOTO */
+
+$("clearPhotoBtn").onclick = ()=>{
+
+  pendingImage = null;
+
+  photoRemoved = true;
+
+  $("photoFile").value = "";
+
+  $("imageUrl").value = "";
+
   showPreview("");
+
   notify("ลบรูปออกจากแบบฟอร์มแล้ว");
+
 };
 
-$("imageUrl").addEventListener("input",e=>{
-  if(e.target.value.trim()){
-    pendingImage=null;
-    photoRemoved=false;
-    showPreview(e.target.value.trim());
+/* IMAGE URL */
+
+$("imageUrl").addEventListener(
+  "input",
+  e=>{
+
+    if(e.target.value.trim()){
+
+      pendingImage = null;
+
+      photoRemoved = false;
+
+      showPreview(
+        e.target.value.trim()
+      );
+
+    }
+
   }
-});
+);
 
-$("form").addEventListener("submit",e=>{
-  e.preventDefault();
+/* SAVE PRODUCT */
 
-  if(processing){
-    notify("กำลังเตรียมรูป กรุณารอสักครู่");
-    return;
+$("form").addEventListener(
+  "submit",
+  e=>{
+
+    e.preventDefault();
+
+    if(processing){
+
+      notify(
+        "กำลังเตรียมรูป กรุณารอสักครู่"
+      );
+
+      return;
+
+    }
+
+    const id = $("editId").value;
+
+    const existing = products.find(
+      p=>String(p.id)===id
+    );
+
+    const num = k=>
+      $(k).value===""
+        ? null
+        : Number($(k).value);
+
+    const url = $("imageUrl").value.trim();
+
+    const item = {
+
+      id:
+        id ||
+        String(Date.now())+
+        Math.random().toString(36).slice(2),
+
+      name:$("productName").value.trim(),
+
+      category:$("category").value,
+
+      /* V8 OWNER */
+
+      owner:$("owner").value || "-",
+
+      description:$("description").value.trim(),
+
+      priceTH:num("priceTH"),
+
+      priceJP:num("priceJP"),
+
+      qty:num("qty")||1,
+
+      shop:$("shop").value.trim(),
+
+      status:$("status").value,
+
+      image:
+        pendingImage ||
+        url ||
+        (
+          photoRemoved
+            ? ""
+            : existing?.image || ""
+        )
+
+    };
+
+    if(!item.name){
+      return;
+    }
+
+    const old = products;
+
+    products = id
+      ? products.map(
+          p=>String(p.id)===id ? item : p
+        )
+      : [item,...products];
+
+    if(!save()){
+
+      products = old;
+
+      return;
+
+    }
+
+    closeForm();
+
+    render();
+
+    notify("บันทึกสินค้าแล้ว");
+
   }
+);
 
-  const id=$("editId").value;
-  const existing=products.find(p=>String(p.id)===id);
-  const num=k=>$(k).value===""?null:Number($(k).value);
-  const url=$("imageUrl").value.trim();
-
-  const item={
-    id:id||String(Date.now())+Math.random().toString(36).slice(2),
-    name:$("productName").value.trim(),
-    category:$("category").value,
-    owner:$("owner").value,
-    description:$("description").value.trim(),
-    priceTH:num("priceTH"),
-    priceJP:num("priceJP"),
-    qty:num("qty")||1,
-    shop:$("shop").value.trim(),
-    status:$("status").value,
-    image:pendingImage||url||
-      (photoRemoved?"":existing?.image||"")
-  };
-
-  if(!item.name)return;
-
-  const old=products;
-
-  products=id
-    ?products.map(p=>String(p.id)===id?item:p)
-    :[item,...products];
-
-  if(!save()){
-    products=old;
-    return;
-  }
-
-  closeForm();
-  render();
-  notify("บันทึกสินค้าแล้ว");
-});
+/* CATEGORY OPTIONS */
 
 for(const cat of CATEGORIES){
-  $("categoryFilter").add(new Option(cat,cat));
-  $("category").add(new Option(cat,cat));
+
+  $("categoryFilter").add(
+    new Option(cat,cat)
+  );
+
+  $("category").add(
+    new Option(cat,cat)
+  );
+
 }
 
-for(const id of ["search","categoryFilter","ownerFilter"]){
-  $(id).addEventListener(id==="search"?"input":"change",render);
+/* SEARCH AND FILTERS */
+
+for(const id of [
+  "search",
+  "categoryFilter",
+  "ownerFilter"
+]){
+
+  $(id).addEventListener(
+    id==="search" ? "input" : "change",
+    render
+  );
+
 }
 
-$("tabPending").onclick=()=>{
-  active="pending";
+/* TABS */
+
+$("tabPending").onclick = ()=>{
+
+  active = "pending";
+
   render();
+
 };
 
-$("tabBought").onclick=()=>{
-  active="bought";
+$("tabBought").onclick = ()=>{
+
+  active = "bought";
+
   render();
+
 };
 
-$("addBtn").onclick=()=>openForm();
-$("closeBtn").onclick=closeForm;
-$("cancelBtn").onclick=closeForm;
+/* FORM BUTTONS */
 
-$("overlay").addEventListener("click",e=>{
-  if(e.target===$("overlay"))closeForm();
-});
+$("addBtn").onclick = ()=>openForm();
+
+$("closeBtn").onclick = closeForm;
+
+$("cancelBtn").onclick = closeForm;
+
+/* CLOSE MODAL */
+
+$("overlay").addEventListener(
+  "click",
+  e=>{
+
+    if(e.target===$("overlay")){
+      closeForm();
+    }
+
+  }
+);
+
+/* INITIAL RENDER */
 
 render();
+
 </script>
+
 </body>
 </html>
