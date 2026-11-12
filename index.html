@@ -1,534 +1,1172 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f5f7fb">
 <title>Japan Together | Shopping List</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-:root{
---blue:#2458e8;--navy:#17243c;--bg:#f4f6fa;
---muted:#758198;--line:#e6ebf3;--green:#087f60;
---red:#d33c45
+:root {
+  --blue:#3158e8;
+  --navy:#18243c;
+  --bg:#f4f6fb;
+  --muted:#7a8599;
+  --line:#e6ebf3;
+  --green:#07845f;
+  --red:#d33d48;
 }
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--navy);font-family:Sarabun,Arial,sans-serif}
-button,input,select{font:inherit}
-button{border:0;cursor:pointer;font-weight:700}
-button:disabled{opacity:.55;cursor:wait}
-.wrap{max-width:1100px;margin:auto;padding:0 20px}
-header{background:#fff;border-bottom:1px solid var(--line);padding:25px 0}
-.head{display:flex;justify-content:space-between;align-items:center;gap:12px}
-h1{font-size:28px;margin:6px 0}
-h2{font-size:21px;margin:0}
-.muted{color:var(--muted)}
-.pill{background:#edf2ff;color:var(--blue);border-radius:30px;padding:7px 12px;font-size:12px;font-weight:800}
-main{padding-top:25px!important;padding-bottom:90px!important}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.stat,.progress,.card,.toolbar{background:#fff;border-radius:20px}
-.stat{padding:19px 22px}
-.stat strong{font-size:32px;display:block;line-height:1.2}
-.stat span{color:var(--muted);font-size:13px}
-.progress{padding:20px 24px;margin:14px 0 25px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.bar{height:10px;background:#edf1f8;border-radius:20px;margin-top:13px;overflow:hidden}
-.fill{height:100%;width:0;background:var(--blue);transition:width .2s}
-.primary{background:var(--blue);color:#fff;border-radius:13px;padding:13px 20px}
-.secondary{background:#edf2ff;color:var(--blue);border-radius:12px;padding:10px 14px}
-.danger{background:#fff0f1;color:var(--red);border-radius:12px;padding:10px 14px}
-.toolbar{padding:16px;margin:17px 0}
-.filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px}
-input,select{width:100%;min-width:0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--navy)}
-.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
-.card{padding:18px;display:grid;grid-template-columns:130px minmax(0,1fr);gap:16px;border:1px solid #edf0f5}
-.photo{width:130px;height:155px;border-radius:15px;object-fit:contain;background:#eef2f8}
-.fallback{display:flex;align-items:center;justify-content:center;font-size:48px}
-.info{min-width:0}
-.name{font-size:18px;font-weight:800;line-height:1.35;overflow-wrap:anywhere}
-.detail{color:var(--muted);font-size:13px;margin-top:5px;overflow-wrap:anywhere}
-.price{font-size:23px;font-weight:800;color:var(--blue);margin-top:10px}
-.priceTH{font-size:13px;color:var(--muted)}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.tag{background:#f0f3f8;color:#53627d;border-radius:8px;padding:5px 8px;font-size:12px}
-.tag.done{background:#e4f8ef;color:var(--green)}
-.actions{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}
-.actions button{min-height:43px}
-.actions .toggle{flex:1}
-.actions .edit,.actions .delete{min-width:43px;font-size:19px}
-.empty{padding:40px;text-align:center;color:var(--muted)}
-.overlay{position:fixed;inset:0;background:#101a30aa;display:none;align-items:center;justify-content:center;padding:16px;z-index:10}
-.modal{background:#fff;border-radius:23px;padding:24px;width:100%;max-width:600px;max-height:90vh;overflow:auto}
-label{display:block;font-size:13px;font-weight:700;margin:14px 0 6px}
-.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
-.full{grid-column:span 2}
-.footer{display:flex;gap:10px;margin-top:22px}
-.footer button{flex:1;min-height:48px}
-.notice{font-size:12px;color:var(--muted);margin-top:12px}
-@media(max-width:850px){
-.cards{grid-template-columns:1fr}
-.filters{grid-template-columns:1fr 1fr}
-.search{grid-column:span 2}
+
+* { box-sizing:border-box; }
+
+html,body {
+  margin:0;
+  width:100%;
+  min-height:100%;
+  overflow-x:hidden;
 }
-@media(max-width:520px){
-.wrap{padding-left:14px;padding-right:14px}
-header{padding:15px 0}
-h1{font-size:24px}
-.stat{padding:15px 10px;text-align:center}
-.stat strong{font-size:26px}
-.card{grid-template-columns:105px minmax(0,1fr);padding:12px;gap:12px}
-.photo{width:105px;height:125px}
-.name{font-size:16px}
-.price{font-size:20px}
-.actions{grid-column:span 2}
-.head .muted{font-size:11px}
+
+body {
+  background:var(--bg);
+  color:var(--navy);
+  font-family:"Sarabun",Arial,sans-serif;
+  font-size:15px;
 }
-/* =====================================
-   JAPAN TOGETHER — MOBILE UI FIX
-   ===================================== */
 
-@media (max-width: 600px) {
+button,input,select {
+  font:inherit;
+}
 
-  /* Prevent horizontal overflow */
-  html, body {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-  }
+button {
+  border:0;
+  cursor:pointer;
+  font-weight:700;
+  -webkit-tap-highlight-color:transparent;
+}
 
-  /* Product list */
+button:disabled {
+  opacity:.5;
+  cursor:wait;
+}
+
+.wrap {
+  width:100%;
+  max-width:1100px;
+  margin:auto;
+  padding:0 16px;
+}
+
+header {
+  background:white;
+  border-bottom:1px solid var(--line);
+  padding:20px 0;
+}
+
+.header-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+h1 {
+  font-size:26px;
+  margin:8px 0 2px;
+  line-height:1.3;
+}
+
+h2 {
+  font-size:20px;
+  margin:0;
+}
+
+.muted {
+  color:var(--muted);
+  font-size:13px;
+}
+
+.pill {
+  display:inline-block;
+  background:#edf2ff;
+  color:var(--blue);
+  padding:6px 12px;
+  border-radius:30px;
+  font-size:12px;
+  font-weight:800;
+}
+
+main {
+  padding-top:20px!important;
+  padding-bottom:70px!important;
+}
+
+/* DASHBOARD */
+
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+
+.stat {
+  background:white;
+  border-radius:17px;
+  padding:16px;
+  min-width:0;
+}
+
+.stat strong {
+  display:block;
+  font-size:28px;
+  line-height:1.2;
+}
+
+.stat span {
+  color:var(--muted);
+  font-size:12px;
+}
+
+.progress {
+  background:white;
+  border-radius:17px;
+  padding:18px;
+  margin:12px 0 22px;
+}
+
+.row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.bar {
+  height:9px;
+  background:#edf1f8;
+  border-radius:20px;
+  margin-top:12px;
+  overflow:hidden;
+}
+
+.fill {
+  height:100%;
+  width:0;
+  background:var(--blue);
+  transition:width .2s;
+}
+
+/* BUTTONS */
+
+.primary {
+  background:var(--blue);
+  color:white;
+  border-radius:12px;
+  padding:12px 16px;
+}
+
+.secondary {
+  background:#edf2ff;
+  color:var(--blue);
+  border-radius:12px;
+  padding:10px 12px;
+}
+
+.danger {
+  background:#fff0f1;
+  color:var(--red);
+  border-radius:12px;
+  padding:10px 12px;
+}
+
+/* FILTERS */
+
+.toolbar {
+  background:white;
+  padding:14px;
+  border-radius:17px;
+  margin:15px 0;
+}
+
+.filters {
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:9px;
+}
+
+input,select {
+  width:100%;
+  min-width:0;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:white;
+  color:var(--navy);
+  padding:11px;
+  font-size:14px;
+}
+
+input:focus,select:focus {
+  outline:2px solid #dce5ff;
+  border-color:var(--blue);
+}
+
+/* PRODUCT LIST */
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.card {
+  background:white;
+  border:1px solid #edf0f5;
+  border-radius:19px;
+  padding:15px;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+
+.card-main {
+  display:grid;
+  grid-template-columns:115px minmax(0,1fr);
+  gap:14px;
+  align-items:start;
+  min-width:0;
+}
+
+.product-photo {
+  width:115px;
+  height:130px;
+  border-radius:13px;
+  background:#eef2f8;
+  object-fit:contain;
+  display:block;
+}
+
+.photo-placeholder {
+  width:115px;
+  height:130px;
+  border-radius:13px;
+  background:#eef2f8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:43px;
+}
+
+.product-info {
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+
+.product-name {
+  font-size:17px;
+  font-weight:800;
+  line-height:1.4;
+}
+
+.product-desc {
+  color:var(--muted);
+  font-size:13px;
+  margin-top:4px;
+  line-height:1.5;
+}
+
+.product-price {
+  color:var(--blue);
+  font-size:22px;
+  font-weight:800;
+  margin-top:8px;
+  line-height:1.3;
+}
+
+.product-th {
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
+}
+
+.product-shop {
+  color:#596781;
+  font-size:12px;
+  margin-top:6px;
+  line-height:1.5;
+}
+
+.tags {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:9px;
+}
+
+.tag {
+  background:#f0f3f8;
+  color:#52627d;
+  border-radius:8px;
+  padding:4px 7px;
+  font-size:11px;
+}
+
+.tag.done {
+  background:#e5f8ef;
+  color:var(--green);
+}
+
+.card-actions {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 46px 46px;
+  gap:8px;
+  width:100%;
+}
+
+.card-actions button {
+  min-height:45px;
+  padding:8px;
+  border-radius:11px;
+}
+
+.card-actions .toggle {
+  min-width:0;
+  font-size:13px;
+}
+
+.card-actions .icon-btn {
+  font-size:18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.empty {
+  grid-column:1/-1;
+  text-align:center;
+  padding:40px;
+  color:var(--muted);
+}
+
+/* MODAL */
+
+.overlay {
+  position:fixed;
+  inset:0;
+  background:#101a30aa;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  padding:14px;
+  z-index:20;
+}
+
+.modal {
+  background:white;
+  width:100%;
+  max-width:600px;
+  max-height:92dvh;
+  overflow-y:auto;
+  border-radius:22px;
+  padding:22px;
+}
+
+label {
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  margin:13px 0 6px;
+}
+
+.formgrid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 12px;
+}
+
+.full {
+  grid-column:span 2;
+}
+
+.footer {
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+
+.footer button {
+  flex:1;
+  min-height:46px;
+}
+
+.notice {
+  color:var(--muted);
+  font-size:12px;
+  margin-top:14px;
+}
+
+/* TABLET */
+
+@media(max-width:850px) {
   .cards {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+    grid-template-columns:1fr;
   }
 
-  /* Product card */
-  .card {
-    display: grid;
-    grid-template-columns: 100px minmax(0, 1fr);
-    gap: 12px;
-    padding: 14px;
-    align-items: start;
-    width: 100%;
-    min-width: 0;
-  }
-
-  /* Product image */
-  .photo {
-    width: 100px;
-    height: 115px;
-    object-fit: contain;
-    border-radius: 12px;
-  }
-
-  /* Product information */
-  .info {
-    width: 100%;
-    min-width: 0;
-    overflow-wrap: anywhere;
-  }
-
-  .name {
-    font-size: 16px;
-    line-height: 1.4;
-    margin-bottom: 4px;
-  }
-
-  .detail {
-    font-size: 12px;
-    line-height: 1.5;
-  }
-
-  .price {
-    font-size: 20px;
-    margin-top: 8px;
-  }
-
-  .priceTH {
-    font-size: 12px;
-  }
-
-  /* Tags */
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-
-  .tag {
-    font-size: 11px;
-    padding: 4px 7px;
-  }
-
-  /* Buttons */
-  .actions {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 7px;
-    width: 100%;
-    margin-top: 12px;
-  }
-
-  .actions button {
-    min-height: 42px;
-    padding: 8px;
-    border-radius: 10px;
-    white-space: nowrap;
-  }
-
-  .actions .toggle {
-    flex: 1;
-    min-width: 0;
-    font-size: 12px;
-  }
-
-  .actions .edit,
-  .actions .delete {
-    flex: 0 0 42px;
-    min-width: 42px;
-    font-size: 17px;
-  }
-
-  /* Filters */
   .filters {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 9px;
+    grid-template-columns:1fr 1fr;
   }
 
-  .filters .search {
-    grid-column: span 2;
+  .search {
+    grid-column:span 2;
+  }
+}
+
+/* IPHONE */
+
+@media(max-width:520px) {
+  .wrap {
+    padding-left:13px;
+    padding-right:13px;
   }
 
-  /* Dashboard */
+  header {
+    padding:15px 0;
+  }
+
+  h1 {
+    font-size:23px;
+  }
+
+  .header-right {
+    display:none;
+  }
+
   .stats {
-    gap: 8px;
+    gap:7px;
   }
 
   .stat {
-    padding: 14px 8px;
+    padding:13px 8px;
+    text-align:center;
   }
 
   .stat strong {
-    font-size: 24px;
+    font-size:25px;
   }
 
-  /* Modal */
-  .modal {
-    padding: 18px;
-    max-height: 90dvh;
+  .card {
+    padding:12px;
   }
-}  
+
+  .card-main {
+    grid-template-columns:95px minmax(0,1fr);
+    gap:11px;
+  }
+
+  .product-photo,
+  .photo-placeholder {
+    width:95px;
+    height:110px;
+  }
+
+  .product-name {
+    font-size:16px;
+  }
+
+  .product-price {
+    font-size:19px;
+  }
+
+  .product-desc {
+    font-size:12px;
+  }
+
+  .card-actions {
+    grid-template-columns:minmax(0,1fr) 45px 45px;
+  }
+
+  .card-actions .toggle {
+    font-size:12px;
+  }
+
+  .modal {
+    padding:17px;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<div class="wrap head">
-<div>
-<span class="pill">🇯🇵 JAPAN 2026</span>
-<h1>Japan Together 🛍️</h1>
-<div class="muted">Our shopping wishlist ♡</div>
-</div>
-<div class="muted">Tokyo Shopping Trip</div>
-</div>
+  <div class="wrap header-row">
+    <div>
+      <span class="pill">🇯🇵 JAPAN 2026</span>
+      <h1>Japan Together 🛍️</h1>
+      <div class="muted">Our shopping wishlist ♡</div>
+    </div>
+    <div class="muted header-right">Tokyo Shopping Trip</div>
+  </div>
 </header>
 
 <main class="wrap">
-<section class="stats">
-<div class="stat"><strong id="total">0</strong><span>ทั้งหมด</span></div>
-<div class="stat"><strong id="pending">0</strong><span>ยังไม่ซื้อ</span></div>
-<div class="stat"><strong id="done">0</strong><span>ซื้อแล้ว</span></div>
-</section>
 
-<section class="progress">
-<div class="row">
-<strong>Shopping Progress</strong>
-<strong id="percent">0%</strong>
-</div>
-<div class="bar"><div id="fill" class="fill"></div></div>
-</section>
+  <section class="stats">
+    <div class="stat">
+      <strong id="total">0</strong>
+      <span>ทั้งหมด</span>
+    </div>
+    <div class="stat">
+      <strong id="pending">0</strong>
+      <span>ยังไม่ซื้อ</span>
+    </div>
+    <div class="stat">
+      <strong id="done">0</strong>
+      <span>ซื้อแล้ว</span>
+    </div>
+  </section>
 
-<div class="row">
-<h2>Shopping List</h2>
-<button class="primary" id="addBtn">＋ เพิ่มสินค้า</button>
-</div>
+  <section class="progress">
+    <div class="row">
+      <strong>Shopping Progress</strong>
+      <strong id="percent">0%</strong>
+    </div>
+    <div class="bar">
+      <div class="fill" id="fill"></div>
+    </div>
+  </section>
 
-<section class="toolbar">
-<div class="filters">
-<input class="search" id="search" placeholder="🔎 ค้นหาสินค้าหรือร้านค้า">
-<select id="categoryFilter"><option value="">ทุกหมวดหมู่</option></select>
-<select id="ownerFilter">
-<option value="">ทุกคน</option>
-<option value="เรา">เรา</option>
-<option value="แฟน">แฟน</option>
-<option value="ทั้งคู่">ทั้งคู่</option>
-</select>
-<select id="statusFilter">
-<option value="">ทุกสถานะ</option>
-<option value="pending">ยังไม่ซื้อ</option>
-<option value="bought">ซื้อแล้ว</option>
-</select>
-</div>
-</section>
+  <div class="row">
+    <h2>Shopping List</h2>
+    <button class="primary" id="addBtn">＋ เพิ่มสินค้า</button>
+  </div>
 
-<section id="list" class="cards"></section>
-<p class="notice">ข้อมูลบันทึกเฉพาะในเบราว์เซอร์นี้ ยังไม่ซิงก์กับอีกเครื่อง</p>
+  <section class="toolbar">
+    <div class="filters">
+      <input class="search" id="search"
+        placeholder="🔎 ค้นหาสินค้าหรือร้านค้า">
+
+      <select id="categoryFilter">
+        <option value="">ทุกหมวดหมู่</option>
+      </select>
+
+      <select id="ownerFilter">
+        <option value="">ทุกคน</option>
+        <option value="เรา">เรา</option>
+        <option value="แฟน">แฟน</option>
+        <option value="ทั้งคู่">ทั้งคู่</option>
+      </select>
+
+      <select id="statusFilter">
+        <option value="">ทุกสถานะ</option>
+        <option value="pending">ยังไม่ซื้อ</option>
+        <option value="bought">ซื้อแล้ว</option>
+      </select>
+    </div>
+  </section>
+
+  <section id="list" class="cards"></section>
+
+  <p class="notice">
+    ข้อมูลยังบันทึกเฉพาะในเบราว์เซอร์นี้
+    ยังไม่ซิงก์ระหว่างสองเครื่อง
+  </p>
+
 </main>
 
 <div class="overlay" id="overlay">
-<div class="modal">
-<div class="row">
-<h2 id="formTitle">เพิ่มสินค้า</h2>
-<button type="button" class="secondary" id="closeBtn">✕</button>
-</div>
-<form id="productForm">
-<input type="hidden" id="editId">
-<label>ชื่อสินค้า *</label>
-<input id="productName" required placeholder="เช่น On Cloudtilt">
-<div class="formgrid">
-<div>
-<label>หมวดหมู่</label>
-<select id="productCategory"></select>
-</div>
-<div>
-<label>ใครอยากได้</label>
-<select id="productOwner">
-<option>เรา</option><option>แฟน</option><option>ทั้งคู่</option>
-</select>
-</div>
-<div>
-<label>ราคาไทย (฿)</label>
-<input id="priceTH" type="number" min="0" step=".01">
-</div>
-<div>
-<label>ราคาญี่ปุ่น (¥)</label>
-<input id="priceJP" type="number" min="0" step=".01">
-</div>
-<div>
-<label>จำนวน</label>
-<input id="qty" type="number" min="1" step="1">
-</div>
-<div>
-<label>สถานะ</label>
-<select id="productStatus">
-<option value="pending">ยังไม่ซื้อ</option>
-<option value="bought">ซื้อแล้ว</option>
-</select>
-</div>
-<div class="full">
-<label>ร้านค้า / สถานที่ซื้อ</label>
-<input id="shop" placeholder="เช่น UNIQLO Ginza">
-</div>
-<div class="full">
-<label>สี / ไซส์ / รายละเอียด</label>
-<input id="description" placeholder="เช่น สีน้ำตาล Women XL">
-</div>
-<div class="full">
-<label>ลิงก์รูปสินค้า (ไม่บังคับ)</label>
-<input id="imageUrl" type="url" placeholder="https://...">
-</div>
-</div>
-<p class="notice">หากไม่ใส่รูป แอปจะลองค้นหาภาพจาก Wikimedia Commons ให้อัตโนมัติ รูปอาจไม่ตรงรุ่นหรือสี</p>
-<div class="footer">
-<button type="button" class="secondary" id="cancelBtn">ยกเลิก</button>
-<button type="submit" class="primary">บันทึกสินค้า</button>
-</div>
-</form>
-</div>
+  <div class="modal">
+
+    <div class="row">
+      <h2 id="formTitle">เพิ่มสินค้า</h2>
+      <button class="secondary" id="closeBtn"
+        type="button">✕</button>
+    </div>
+
+    <form id="productForm">
+      <input type="hidden" id="editId">
+
+      <label>ชื่อสินค้า *</label>
+      <input id="productName" required>
+
+      <div class="formgrid">
+
+        <div>
+          <label>หมวดหมู่</label>
+          <select id="productCategory"></select>
+        </div>
+
+        <div>
+          <label>ใครอยากได้</label>
+          <select id="productOwner">
+            <option>เรา</option>
+            <option>แฟน</option>
+            <option>ทั้งคู่</option>
+          </select>
+        </div>
+
+        <div>
+          <label>ราคาไทย (฿)</label>
+          <input id="priceTH" type="number"
+            min="0" step=".01">
+        </div>
+
+        <div>
+          <label>ราคาญี่ปุ่น (¥)</label>
+          <input id="priceJP" type="number"
+            min="0" step=".01">
+        </div>
+
+        <div>
+          <label>จำนวน</label>
+          <input id="qty" type="number"
+            min="1" step="1">
+        </div>
+
+        <div>
+          <label>สถานะ</label>
+          <select id="productStatus">
+            <option value="pending">ยังไม่ซื้อ</option>
+            <option value="bought">ซื้อแล้ว</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <label>ร้านค้า / สถานที่ซื้อ</label>
+          <input id="shop">
+        </div>
+
+        <div class="full">
+          <label>สี / ไซส์ / รายละเอียด</label>
+          <input id="description">
+        </div>
+
+        <div class="full">
+          <label>ลิงก์รูปสินค้า (ไม่บังคับ)</label>
+          <input id="imageUrl" type="url"
+            placeholder="https://...">
+        </div>
+
+      </div>
+
+      <p class="notice">
+        หากไม่ใส่รูป แอปจะลองค้นหาภาพจาก
+        Wikimedia Commons โดยอัตโนมัติ
+      </p>
+
+      <div class="footer">
+        <button type="button"
+          class="secondary" id="cancelBtn">
+          ยกเลิก
+        </button>
+
+        <button type="submit" class="primary">
+          บันทึกสินค้า
+        </button>
+      </div>
+
+    </form>
+  </div>
 </div>
 
 <script>
 "use strict";
+
 const KEY="japan_together_v3";
-const categories=["รองเท้า","เสื้อผ้า","กระเป๋า","อาหาร","ขนม","เครื่องสำอาง","ของใช้","อิเล็กทรอนิกส์","อื่นๆ"];
-const icons={"รองเท้า":"👟","เสื้อผ้า":"🧥","กระเป๋า":"👜","อาหาร":"🍱","ขนม":"🍫","เครื่องสำอาง":"💄","ของใช้":"🧴","อิเล็กทรอนิกส์":"📱"};
-const samples=[
-{id:"1",name:"On Cloudtilt",category:"รองเท้า",owner:"เรา",description:"All White · US Men 7.5",priceTH:6600,priceJP:null,shop:"On / ร้านรองเท้า",qty:1,status:"pending",image:""},
-{id:"2",name:"UNIQLO เสื้อคลุม",category:"เสื้อผ้า",owner:"แฟน",description:"สีน้ำตาล · Women XL",priceTH:null,priceJP:null,shop:"UNIQLO",qty:1,status:"pending",image:""},
-{id:"3",name:"3COINS กระเป๋าพับได้",category:"กระเป๋า",owner:"ทั้งคู่",description:"กระเป๋าพับเก็บได้",priceTH:null,priceJP:null,shop:"3COINS",qty:1,status:"pending",image:""}
+
+const categories=[
+  "รองเท้า","เสื้อผ้า","กระเป๋า",
+  "อาหาร","ขนม","เครื่องสำอาง",
+  "ของใช้","อิเล็กทรอนิกส์","อื่นๆ"
 ];
-const $=id=>document.getElementById(id);
-let products;
-try{
-const raw=localStorage.getItem(KEY);
-products=raw?JSON.parse(raw):samples;
-if(!Array.isArray(products))products=samples;
-}catch(e){products=samples;}
-const imageCache={};
-const money=(n,c)=>n==null||n===""?"ยังไม่ระบุ":new Intl.NumberFormat("th-TH",{style:"currency",currency:c,maximumFractionDigits:0}).format(n);
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-function save(){
-try{localStorage.setItem(KEY,JSON.stringify(products));return true}
-catch(e){alert("บันทึกไม่สำเร็จ กรุณาตรวจสอบพื้นที่เก็บข้อมูล");return false}
-}
-function fallback(p){
-const d=document.createElement("div");
-d.className="photo fallback";
-d.textContent=icons[p.category]||"🛍️";
-return d;
-}
-async function findImage(p,img){
-const term=p.category==="รองเท้า"?"sneakers":p.category==="เสื้อผ้า"?"brown jacket":p.category==="กระเป๋า"?"foldable tote bag":p.name;
-if(imageCache[term]===undefined){
-try{
-const url="https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(term)+"&gsrnamespace=6&gsrlimit=8&prop=imageinfo&iiprop=url&iiurlwidth=350&format=json&origin=*";
-const response=await fetch(url);
-if(!response.ok)throw Error("Image search failed");
-const data=await response.json();
-const pages=Object.values(data.query?.pages||{});
-const match=pages.find(x=>x.imageinfo?.[0]?.thumburl&&/\.(jpg|jpeg|png|webp)$/i.test(x.title));
-imageCache[term]=match?.imageinfo?.[0]?.thumburl||"";
-}catch(e){imageCache[term]=""}
-}
-if(!img.isConnected)return;
-if(imageCache[term]){img.src=imageCache[term];img.style.display="block"}
-else img.replaceWith(fallback(p));
-}
-function render(){
-const bought=products.filter(p=>p.status==="bought").length;
-$("total").textContent=products.length;
-$("pending").textContent=products.length-bought;
-$("done").textContent=bought;
-const pct=products.length?Math.round(bought/products.length*100):0;
-$("percent").textContent=pct+"%";
-$("fill").style.width=pct+"%";
-const q=$("search").value.toLowerCase().trim();
-const cat=$("categoryFilter").value;
-const owner=$("ownerFilter").value;
-const status=$("statusFilter").value;
-const filtered=products.filter(p=>
-(!q||[p.name,p.shop,p.description].join(" ").toLowerCase().includes(q))&&
-(!cat||p.category===cat)&&
-(!owner||p.owner===owner||p.owner==="ทั้งคู่")&&
-(!status||p.status===status)
-);
-$("list").replaceChildren();
-if(!filtered.length){
-$("list").innerHTML='<div class="empty">ไม่พบสินค้า 🛍️</div>';
-return;
-}
-filtered.forEach(p=>{
-const card=document.createElement("article");
-card.className="card";
-let photo;
-if(p.image){
-photo=document.createElement("img");
-photo.className="photo";
-photo.alt=p.name;
-photo.src=p.image;
-photo.onerror=()=>photo.replaceWith(fallback(p));
-}else{
-photo=document.createElement("img");
-photo.className="photo";
-photo.alt="กำลังค้นหารูป";
-photo.style.display="none";
-findImage(p,photo);
-}
-card.appendChild(photo);
-const info=document.createElement("div");
-info.className="info";
-info.innerHTML=`
-<div class="name">${esc(p.name)}</div>
-<div class="detail">${esc(p.description||"")}</div>
-<div class="price">${money(p.priceJP,"JPY")}</div>
-<div class="priceTH">🇹🇭 ราคาไทย ${money(p.priceTH,"THB")}</div>
-<div class="detail">📍 ${esc(p.shop||"ยังไม่ระบุร้าน")}</div>
-<div class="detail">จำนวน ${esc(p.qty||1)} ชิ้น</div>
-<div class="tags">
-<span class="tag">${esc(p.category)}</span>
-<span class="tag">♡ ${esc(p.owner)}</span>
-<span class="tag ${p.status==="bought"?"done":""}">${p.status==="bought"?"✓ ซื้อแล้ว":"○ ยังไม่ซื้อ"}</span>
-</div>
-<div class="actions">
-<button class="${p.status==="bought"?"secondary":"primary"} toggle">${p.status==="bought"?"↩ ยังไม่ซื้อ":"✓ ซื้อแล้ว"}</button>
-<button class="secondary edit" aria-label="แก้ไข" title="แก้ไข">✎</button>
-<button class="danger delete" aria-label="ลบ" title="ลบ">🗑</button>
-</div>`;
-info.querySelector(".toggle").onclick=()=>toggle(p.id);
-info.querySelector(".edit").onclick=()=>openForm(p.id);
-info.querySelector(".delete").onclick=()=>removeProduct(p.id);
-card.appendChild(info);
-$("list").appendChild(card);
-});
-}
-function toggle(id){
-const p=products.find(x=>x.id===id);
-if(!p)return;
-const old=p.status;
-p.status=old==="bought"?"pending":"bought";
-if(!save())p.status=old;
-render();
-}
-function removeProduct(id){
-if(!confirm("ลบสินค้านี้ออกจากรายการ?"))return;
-const old=products;
-products=products.filter(p=>p.id!==id);
-if(!save())products=old;
-render();
-}
-function openForm(id){
-$("productForm").reset();
-$("editId").value="";
-$("formTitle").textContent="เพิ่มสินค้า";
-if(id){
-const p=products.find(x=>x.id===id);
-if(!p)return;
-$("formTitle").textContent="แก้ไขสินค้า";
-$("editId").value=p.id;
-$("productName").value=p.name;
-$("productCategory").value=p.category;
-$("productOwner").value=p.owner;
-$("priceTH").value=p.priceTH??"";
-$("priceJP").value=p.priceJP??"";
-$("qty").value=p.qty??"";
-$("productStatus").value=p.status;
-$("shop").value=p.shop??"";
-$("description").value=p.description??"";
-$("imageUrl").value=p.image?.startsWith("http")?p.image:"";
-}
-$("overlay").style.display="flex";
-}
-function closeForm(){$("overlay").style.display="none"}
-$("productForm").addEventListener("submit",e=>{
-e.preventDefault();
-const id=$("editId").value;
-const existing=products.find(p=>p.id===id);
-const num=x=>$(x).value===""?null:Number($(x).value);
-const url=$("imageUrl").value.trim();
-const item={
-id:id||String(Date.now())+Math.random().toString(36).slice(2),
-name:$("productName").value.trim(),
-category:$("productCategory").value,
-owner:$("productOwner").value,
-description:$("description").value.trim(),
-priceTH:num("priceTH"),
-priceJP:num("priceJP"),
-qty:num("qty")||1,
-shop:$("shop").value.trim(),
-status:$("productStatus").value,
-image:url||(existing?.image||"")
+
+const icons={
+  "รองเท้า":"👟",
+  "เสื้อผ้า":"🧥",
+  "กระเป๋า":"👜",
+  "อาหาร":"🍱",
+  "ขนม":"🍫",
+  "เครื่องสำอาง":"💄",
+  "ของใช้":"🧴",
+  "อิเล็กทรอนิกส์":"📱"
 };
-if(!item.name)return;
-const old=products;
-products=id?products.map(p=>p.id===id?item:p):[item,...products];
-if(!save()){products=old;return}
-closeForm();render();
+
+const samples=[
+  {
+    id:"1",
+    name:"On Cloudtilt",
+    category:"รองเท้า",
+    owner:"เรา",
+    description:"All White · US Men 7.5",
+    priceTH:6600,
+    priceJP:null,
+    shop:"On / ร้านรองเท้า",
+    qty:1,
+    status:"pending",
+    image:""
+  },
+  {
+    id:"2",
+    name:"UNIQLO เสื้อคลุม",
+    category:"เสื้อผ้า",
+    owner:"แฟน",
+    description:"สีน้ำตาล · Women XL",
+    priceTH:null,
+    priceJP:null,
+    shop:"UNIQLO",
+    qty:1,
+    status:"pending",
+    image:""
+  },
+  {
+    id:"3",
+    name:"3COINS กระเป๋าพับได้",
+    category:"กระเป๋า",
+    owner:"ทั้งคู่",
+    description:"กระเป๋าพับเก็บได้",
+    priceTH:null,
+    priceJP:null,
+    shop:"3COINS",
+    qty:1,
+    status:"pending",
+    image:""
+  }
+];
+
+const $=id=>document.getElementById(id);
+
+let products;
+
+try {
+  const saved=localStorage.getItem(KEY);
+  products=saved?JSON.parse(saved):samples;
+  if(!Array.isArray(products)) {
+    products=samples;
+  }
+} catch(e) {
+  products=samples;
+}
+
+const imageCache={};
+
+function money(value,currency) {
+  if(value===null ||
+     value===undefined ||
+     value==="") {
+    return "ยังไม่ระบุ";
+  }
+
+  return new Intl.NumberFormat("th-TH",{
+    style:"currency",
+    currency:currency,
+    maximumFractionDigits:0
+  }).format(value);
+}
+
+function esc(value) {
+  return String(value??"").replace(
+    /[&<>"']/g,
+    c=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+}
+
+function save() {
+  try {
+    localStorage.setItem(
+      KEY,
+      JSON.stringify(products)
+    );
+    return true;
+  } catch(e) {
+    alert("บันทึกไม่สำเร็จ");
+    return false;
+  }
+}
+
+function createPlaceholder(product) {
+  const div=document.createElement("div");
+  div.className="photo-placeholder";
+  div.textContent=icons[product.category]||"🛍️";
+  return div;
+}
+
+async function loadProductImage(product,container) {
+  const placeholder=createPlaceholder(product);
+  container.appendChild(placeholder);
+
+  let url=product.image||"";
+
+  if(!url) {
+    const searchTerm=
+      product.category==="รองเท้า"
+      ?"sneakers":
+      product.category==="เสื้อผ้า"
+      ?"brown jacket":
+      product.category==="กระเป๋า"
+      ?"foldable tote bag":
+      product.name;
+
+    if(imageCache[searchTerm]===undefined) {
+      try {
+        const api=
+          "https://commons.wikimedia.org/w/api.php"+
+          "?action=query"+
+          "&generator=search"+
+          "&gsrsearch="+encodeURIComponent(searchTerm)+
+          "&gsrnamespace=6"+
+          "&gsrlimit=8"+
+          "&prop=imageinfo"+
+          "&iiprop=url"+
+          "&iiurlwidth=350"+
+          "&format=json"+
+          "&origin=*";
+
+        const response=await fetch(api);
+        if(!response.ok) {
+          throw new Error("Image error");
+        }
+
+        const data=await response.json();
+        const pages=Object.values(
+          data.query?.pages||{}
+        );
+
+        const match=pages.find(
+          p=>p.imageinfo?.[0]?.thumburl
+        );
+
+        imageCache[searchTerm]=
+          match?.imageinfo?.[0]?.thumburl||"";
+
+      } catch(e) {
+        imageCache[searchTerm]="";
+      }
+    }
+
+    url=imageCache[searchTerm];
+  }
+
+  if(!url || !container.isConnected) {
+    return;
+  }
+
+  const img=document.createElement("img");
+  img.className="product-photo";
+  img.alt=product.name;
+
+  img.onload=()=>{
+    if(placeholder.isConnected) {
+      placeholder.replaceWith(img);
+    }
+  };
+
+  img.onerror=()=>{};
+  img.src=url;
+}
+
+function render() {
+  const bought=products.filter(
+    p=>p.status==="bought"
+  ).length;
+
+  $("total").textContent=products.length;
+  $("pending").textContent=
+    products.length-bought;
+  $("done").textContent=bought;
+
+  const percent=products.length
+    ?Math.round(
+      bought/products.length*100
+    )
+    :0;
+
+  $("percent").textContent=percent+"%";
+  $("fill").style.width=percent+"%";
+
+  const query=$("search").value
+    .toLowerCase().trim();
+
+  const category=$("categoryFilter").value;
+  const owner=$("ownerFilter").value;
+  const status=$("statusFilter").value;
+
+  const filtered=products.filter(p=>
+    (!query ||
+      [p.name,p.shop,p.description]
+      .join(" ")
+      .toLowerCase()
+      .includes(query)
+    ) &&
+    (!category || p.category===category) &&
+    (!owner ||
+      p.owner===owner ||
+      p.owner==="ทั้งคู่"
+    ) &&
+    (!status || p.status===status)
+  );
+
+  const list=$("list");
+  list.replaceChildren();
+
+  if(!filtered.length) {
+    list.innerHTML=
+      '<div class="empty">ไม่พบสินค้า 🛍️</div>';
+    return;
+  }
+
+  filtered.forEach(product=>{
+    const card=document.createElement("article");
+    card.className="card";
+
+    const main=document.createElement("div");
+    main.className="card-main";
+
+    const photoContainer=document.createElement("div");
+
+    const info=document.createElement("div");
+    info.className="product-info";
+
+    info.innerHTML=`
+      <div class="product-name">
+        ${esc(product.name)}
+      </div>
+
+      <div class="product-desc">
+        ${esc(product.description||"")}
+      </div>
+
+      <div class="product-price">
+        ${money(product.priceJP,"JPY")}
+      </div>
+
+      <div class="product-th">
+        🇹🇭 ราคาไทย:
+        ${money(product.priceTH,"THB")}
+      </div>
+
+      <div class="product-shop">
+        📍 ${esc(product.shop||"ยังไม่ระบุร้าน")}
+      </div>
+
+      <div class="product-shop">
+        จำนวน ${esc(product.qty||1)} ชิ้น
+      </div>
+
+      <div class="tags">
+        <span class="tag">
+          ${esc(product.category)}
+        </span>
+
+        <span class="tag">
+          ♡ ${esc(product.owner)}
+        </span>
+
+        <span class="tag ${
+          product.status==="bought"?"done":""
+        }">
+          ${
+            product.status==="bought"
+            ?"✓ ซื้อแล้ว"
+            :"○ ยังไม่ซื้อ"
+          }
+        </span>
+      </div>
+    `;
+
+    main.appendChild(photoContainer);
+    main.appendChild(info);
+
+    const actions=document.createElement("div");
+    actions.className="card-actions";
+
+    const toggle=document.createElement("button");
+    toggle.className=
+      product.status==="bought"
+      ?"secondary toggle"
+      :"primary toggle";
+
+    toggle.textContent=
+      product.status==="bought"
+      ?"↩ ยังไม่ซื้อ"
+      :"✓ ซื้อแล้ว";
+
+    toggle.onclick=()=>toggleStatus(product.id);
+
+    const edit=document.createElement("button");
+    edit.className="secondary icon-btn";
+    edit.textContent="✎";
+    edit.title="แก้ไข";
+    edit.setAttribute("aria-label","แก้ไข");
+    edit.onclick=()=>openForm(product.id);
+
+    const remove=document.createElement("button");
+    remove.className="danger icon-btn";
+    remove.textContent="🗑";
+    remove.title="ลบ";
+    remove.setAttribute("aria-label","ลบ");
+    remove.onclick=()=>removeProduct(product.id);
+
+    actions.append(toggle,edit,remove);
+
+    card.append(main,actions);
+    list.appendChild(card);
+
+    loadProductImage(product,photoContainer);
+  });
+}
+
+function toggleStatus(id) {
+  const product=products.find(p=>p.id===id);
+  if(!product)return;
+
+  const old=product.status;
+
+  product.status=
+    old==="bought"?"pending":"bought";
+
+  if(!save()) {
+    product.status=old;
+  }
+
+  render();
+}
+
+function removeProduct(id) {
+  if(!confirm("ลบสินค้านี้ออกจากรายการ?")) {
+    return;
+  }
+
+  const old=products;
+
+  products=products.filter(p=>p.id!==id);
+
+  if(!save()) {
+    products=old;
+  }
+
+  render();
+}
+
+function openForm(id) {
+  $("productForm").reset();
+  $("editId").value="";
+  $("formTitle").textContent="เพิ่มสินค้า";
+
+  if(id) {
+    const p=products.find(x=>x.id===id);
+    if(!p)return;
+
+    $("formTitle").textContent="แก้ไขสินค้า";
+    $("editId").value=p.id;
+    $("productName").value=p.name;
+    $("productCategory").value=p.category;
+    $("productOwner").value=p.owner;
+    $("priceTH").value=p.priceTH??"";
+    $("priceJP").value=p.priceJP??"";
+    $("qty").value=p.qty??"";
+    $("productStatus").value=p.status;
+    $("shop").value=p.shop??"";
+    $("description").value=p.description??"";
+    $("imageUrl").value=
+      p.image?.startsWith("http")
+      ?p.image:"";
+  }
+
+  $("overlay").style.display="flex";
+}
+
+function closeForm() {
+  $("overlay").style.display="none";
+}
+
+$("productForm").addEventListener(
+  "submit",
+  function(event) {
+    event.preventDefault();
+
+    const id=$("editId").value;
+    const existing=products.find(p=>p.id===id);
+
+    const number=field=>
+      $(field).value===""
+      ?null
+      :Number($(field).value);
+
+    const imageUrl=$("imageUrl").value.trim();
+
+    const item={
+      id:id||String(Date.now())+
+        Math.random().toString(36).slice(2),
+
+      name:$("productName").value.trim(),
+      category:$("productCategory").value,
+      owner:$("productOwner").value,
+      description:$("description").value.trim(),
+      priceTH:number("priceTH"),
+      priceJP:number("priceJP"),
+      qty:number("qty")||1,
+      shop:$("shop").value.trim(),
+      status:$("productStatus").value,
+      image:imageUrl||(existing?.image||"")
+    };
+
+    if(!item.name)return;
+
+    const old=products;
+
+    products=id
+      ?products.map(
+        p=>p.id===id?item:p
+      )
+      :[item,...products];
+
+    if(!save()) {
+      products=old;
+      return;
+    }
+
+    closeForm();
+    render();
+  }
+);
+
+categories.forEach(category=>{
+  $("categoryFilter").add(
+    new Option(category,category)
+  );
+
+  $("productCategory").add(
+    new Option(category,category)
+  );
 });
-categories.forEach(c=>{
-$("categoryFilter").add(new Option(c,c));
-$("productCategory").add(new Option(c,c));
+
+[
+  "search",
+  "categoryFilter",
+  "ownerFilter",
+  "statusFilter"
+].forEach(id=>{
+  $(id).addEventListener(
+    id==="search"?"input":"change",
+    render
+  );
 });
-["search","categoryFilter","ownerFilter","statusFilter"].forEach(id=>
-$(id).addEventListener(id==="search"?"input":"change",render));
+
 $("addBtn").onclick=()=>openForm();
 $("closeBtn").onclick=closeForm;
 $("cancelBtn").onclick=closeForm;
+
 render();
+
 </script>
 </body>
 </html>
