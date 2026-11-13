@@ -630,7 +630,7 @@ import { initializeApp } from
 import {
   getAuth,
   GoogleAuthProvider,
-  signInWithRedirect,
+  signInWithPopup,
   getRedirectResult,
   onAuthStateChanged,
   signOut
@@ -687,7 +687,7 @@ function showUser(user){
 $("loginBtn").addEventListener("click",async()=>{
   try{
     authMessage("Redirecting to Google...");
-    await signInWithRedirect(auth,provider);
+    await signInWithPopup(auth,provider);
   }catch(error){
     authMessage("Login failed: "+error.message);
   }
