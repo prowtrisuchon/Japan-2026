@@ -1,1290 +1,615 @@
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#6734c7">
-<title>Smart Basket</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+<title>Smart Basket V5</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --purple:#7139d4;
-  --dark:#261a42;
-  --muted:#80768f;
-  --bg:#f6f2ff;
-  --green:#167b58;
-}
+:root{--purple:#703bd3;--light:#f7f5fc;--text:#29223b;--muted:#81798f;--border:#eae5f2}
 *{box-sizing:border-box}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--dark);
-  font:15px Sarabun,Arial,sans-serif;
-}
-button,input,select{font:inherit}
-button{border:0;cursor:pointer;font-weight:700}
-.wrap{max-width:1080px;margin:auto;padding:0 16px}
-
-header{
-  background:linear-gradient(105deg,#49218e,#7d3fe2 55%,#b28cf2);
-  color:white;
-  padding:38px 0 42px;
-}
-.app-title{
-  font-family:"Space Grotesk",Arial,sans-serif;
-  font-size:clamp(42px,7vw,58px);
-  font-weight:700;
-  letter-spacing:-2px;
-  line-height:1.08;
-  margin:0 0 12px;
-}
-.basket-icon{
-  font-size:.72em;
-  vertical-align:middle;
-  margin-left:5px;
-}
-.tagline{
-  font-family:"Space Grotesk",Arial,sans-serif;
-  font-size:clamp(16px,3.5vw,19px);
-  font-weight:600;
-  line-height:1.45;
-  margin:0;
-}
-.description{
-  font-size:14px;
-  line-height:1.7;
-  color:#f0e6ff;
-  margin:22px 0 0;
-  max-width:560px;
-}
-
-main{padding-top:22px!important;padding-bottom:70px!important}
-
-/* GOOGLE LOGIN */
-
-.auth-card{
-  background:white;
-  border:1px solid #eee8f8;
-  border-radius:19px;
-  padding:16px;
-  margin-bottom:16px;
-}
-.auth-heading{
-  font-family:"Space Grotesk",Arial,sans-serif;
-  font-size:17px;
-  font-weight:700;
-  margin-bottom:8px;
-}
-.auth-detail{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-  overflow-wrap:anywhere;
-}
-.auth-user{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:12px;
-}
-.avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:#eee6fb;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  color:#6734c7;
-  overflow:hidden;
-  flex-shrink:0;
-}
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.uid-box{
-  background:#f6f2ff;
-  border-radius:12px;
-  padding:12px;
-  margin:10px 0;
-  font-size:12px;
-  overflow-wrap:anywhere;
-}
-.auth-actions{
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-}
-.auth-actions button{min-height:43px}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px;
-}
-.stat,.progress,.toolbar,.card{
-  background:white;
-  border-radius:19px;
-  border:1px solid #eee8f8;
-}
-.stat{padding:16px 8px;text-align:center}
-.stat b{display:block;font-size:27px}
-.stat span{font-size:13px;color:var(--muted)}
-.progress{padding:18px;margin:12px 0 20px}
-.row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-.bar{
-  height:9px;
-  background:#efe8fa;
-  border-radius:12px;
-  margin-top:12px;
-  overflow:hidden;
-}
-#fill{
-  height:100%;
-  width:0;
-  background:linear-gradient(90deg,#6634cc,#a77de8);
-}
-.tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  background:#ebe3f7;
-  border-radius:15px;
-  padding:5px;
-  gap:5px;
-  margin-bottom:20px;
-}
-.tab{
-  padding:13px 5px;
-  border-radius:11px;
-  background:transparent;
-  color:#716580;
-}
-.tab.active{
-  background:white;
-  color:#6934c6;
-  box-shadow:0 2px 9px #3d146b13;
-}
-.tab small{
-  background:#eee6fb;
-  border-radius:15px;
-  padding:2px 8px;
-}
-.primary{
-  background:#7439d4;
-  color:white;
-  border-radius:12px;
-  padding:12px 16px;
-  min-height:46px;
-}
-.secondary{
-  background:#f1eaff;
-  color:#6630c6;
-  border-radius:12px;
-  padding:10px;
-}
-.danger{
-  background:#fff0f2;
-  color:#c84058;
-  border-radius:12px;
-  padding:10px;
-}
-.toolbar{padding:13px;margin:15px 0}
-.filters{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr;
-  gap:9px;
-}
-input,select{
-  width:100%;
-  min-width:0;
-  padding:11px;
-  border:1px solid #e6def0;
-  border-radius:11px;
-  background:white;
-  color:var(--dark);
-}
-input:focus,select:focus{outline:2px solid #c5a6ff}
-.cards{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-}
-.card{
-  padding:15px;
-  display:flex;
-  flex-direction:column;
-  gap:13px;
-  min-width:0;
-}
-.card-main{
-  display:grid;
-  grid-template-columns:116px minmax(0,1fr);
-  gap:14px;
-}
-.imagebox{
-  width:116px;
-  height:132px;
-  background:#f1ebfa;
-  border-radius:14px;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:40px;
-}
-.imagebox img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
-.info{min-width:0;overflow-wrap:anywhere}
-.name{font-size:18px;font-weight:800;line-height:1.35}
-.desc,.shop,.thai{
-  font-size:14px;
-  color:var(--muted);
-  margin-top:5px;
-  line-height:1.45;
-}
-.yen{
-  font-size:21px;
-  color:var(--purple);
-  font-weight:800;
-  margin-top:7px;
-}
-.tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:5px;
-  margin-top:10px;
-}
-.tag{
-  background:#f3eff9;
-  color:#655778;
-  border-radius:8px;
-  padding:4px 8px;
-  font-size:12px;
-}
-.tag.done{background:#e7f8ef;color:var(--green)}
-.actions{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 46px 46px;
-  gap:8px;
-}
-.actions button{min-height:45px}
-.empty{
-  grid-column:1/-1;
-  background:white;
-  border-radius:18px;
-  padding:40px;
-  text-align:center;
-  color:var(--muted);
-}
-.overlay{
-  position:fixed;
-  inset:0;
-  background:#211039aa;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:14px;
-  z-index:20;
-}
-.overlay.open{display:flex}
-.modal{
-  width:100%;
-  max-width:610px;
-  max-height:92dvh;
-  overflow-y:auto;
-  background:white;
-  border-radius:22px;
-  padding:22px;
-}
-.formgrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0 12px;
-}
-.full{grid-column:span 2}
-label{
-  display:block;
-  font-weight:700;
-  font-size:13px;
-  margin:13px 0 6px;
-}
-.form-actions{display:flex;gap:10px;margin-top:20px}
-.form-actions button{flex:1;min-height:46px}
-.preview{
-  display:none;
-  width:120px;
-  height:120px;
-  object-fit:contain;
-  border-radius:12px;
-  margin-top:10px;
-  background:#f4effa;
-}
-.photo-controls{
-  display:flex;
-  gap:9px;
-  margin-top:9px;
-  flex-wrap:wrap;
-}
-.note{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.5;
-  margin-top:15px;
-}
-.toast{
-  display:none;
-  position:fixed;
-  bottom:25px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#2f2049;
-  color:white;
-  padding:12px 20px;
-  border-radius:14px;
-  z-index:30;
-  text-align:center;
-  width:max-content;
-  max-width:90%;
-}
+body{margin:0;background:var(--light);color:var(--text);font-family:Sarabun,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0;font-weight:700}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #b7a0ee}
+header{background:white;border-bottom:1px solid var(--border)}
+.container{max-width:1150px;margin:auto;padding:20px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-size:25px;font-weight:800}
+.brand span{color:var(--purple)}
+.muted{color:var(--muted);font-size:13px}
+h1{font-size:29px;margin:8px 0}
+h2{font-size:21px;margin:0}
+.btn{padding:11px 16px;border-radius:12px;background:#f0ebfa;color:var(--purple);min-height:44px}
+.primary{background:var(--purple);color:white}
+.danger{background:#fff0f2;color:#bd334b}
+.iconbtn{width:44px;padding:8px;font-size:19px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hero{margin:16px 0 20px}
+.lists{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+.listcard{background:white;border:2px solid transparent;border-radius:18px;padding:19px;text-align:left;min-height:125px}
+.listcard.active{border-color:var(--purple)}
+.listcard strong{display:block;font-size:18px;margin:10px 0 4px}
+.panel{background:white;border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:18px}
+.stats{display:flex;gap:25px}
+.stat{text-align:center}
+.stat strong{display:block;font-size:27px}
+.bar{background:#eee8f8;height:9px;border-radius:10px;overflow:hidden;margin-top:15px}
+.fill{background:var(--purple);height:100%;width:0}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:9px}
+.field{width:100%;min-width:0;padding:12px;border:1px solid var(--border);border-radius:11px;background:white;color:var(--text)}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.product{background:white;border:1px solid var(--border);border-radius:18px;padding:15px}
+.productbody{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px}
+.photo{width:120px;height:135px;border-radius:13px;object-fit:contain;background:#f1eef7}
+.placeholder{display:flex;align-items:center;justify-content:center;font-size:45px}
+.name{font-size:18px;font-weight:800;overflow-wrap:anywhere}
+.price{font-size:23px;font-weight:800;color:var(--purple);margin:7px 0}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.tag{background:#f2eff8;border-radius:8px;padding:5px 8px;font-size:12px}
+.done{color:#087c5d;background:#e3f6ec}
+.actions{display:flex;gap:8px;border-top:1px solid var(--border);padding-top:12px;margin-top:14px}
+.actions .buy{flex:1}
+.empty{grid-column:1/-1;text-align:center;padding:40px;background:white;border-radius:18px}
+.overlay{position:fixed;inset:0;background:#1e143a99;display:none;align-items:center;justify-content:center;padding:15px;z-index:10}
+.overlay.show{display:flex}
+.modal{background:white;border-radius:20px;padding:22px;width:100%;max-width:600px;max-height:90vh;overflow:auto}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.full{grid-column:1/-1}
+label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}
+.footer{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.small{font-size:12px;color:var(--muted)}
 @media(max-width:850px){
-  .cards{grid-template-columns:1fr}
-  .filters{grid-template-columns:1fr 1fr}
-  #search{grid-column:span 2}
+.lists{grid-template-columns:repeat(2,1fr)}
+.products{grid-template-columns:1fr}
+.filters{grid-template-columns:1fr 1fr}
+.filters input{grid-column:1/-1}
 }
 @media(max-width:520px){
-  header{padding:33px 0 37px}
-  .app-title{
-    font-size:44px;
-    letter-spacing:-1.8px;
-    margin-bottom:12px;
-  }
-  .tagline{font-size:16px}
-  .description{font-size:13px;margin-top:20px}
-  .card{padding:12px}
-  .card-main{
-    grid-template-columns:96px minmax(0,1fr);
-    gap:11px;
-  }
-  .imagebox{width:96px;height:112px}
-  .name{font-size:17px}
-  .yen{font-size:20px}
-  .actions{
-    grid-template-columns:minmax(0,1fr) 44px 44px;
-  }
-  .stat b{font-size:25px}
-  .modal{padding:17px}
-  .tab{font-size:14px}
+.container{padding:14px}
+.brand{font-size:21px}
+h1{font-size:25px}
+.panel{padding:14px}
+.listcard{padding:13px}
+.stats{gap:12px}
+.stat strong{font-size:23px}
+.productbody{grid-template-columns:100px minmax(0,1fr);gap:11px}
+.photo{width:100px;height:115px}
+.name{font-size:16px}
+.price{font-size:20px}
+.formgrid{grid-template-columns:1fr}
+.full{grid-column:auto}
 }
 </style>
 </head>
-
 <body>
 
 <header>
-  <div class="wrap">
-    <h1 class="app-title">
-      Smart Basket<span class="basket-icon">🛍️</span>
-    </h1>
-    <p class="tagline">
-      Your Shopping Companion, Wherever You Go.
-    </p>
-    <p class="description">
-      Create your wishlist, track purchases, and keep everything organized in one place.
-    </p>
-  </div>
+<div class="container top">
+<div>
+<div class="brand">Smart <span>Basket</span> 🛍️</div>
+<div class="muted">Save what you love. Shop together.</div>
+</div>
+<div class="row">
+<button class="btn" id="backupBtn">↧ Backup</button>
+<button class="btn" id="importBtn">↥ Import</button>
+<input type="file" id="importFile" accept=".json" hidden>
+</div>
+</div>
 </header>
 
-<main class="wrap">
-
-<!-- FIREBASE LOGIN -->
-
-<section class="auth-card" id="authCard">
-  <div class="auth-heading">☁️ Smart Basket Cloud</div>
-
-  <div id="signedOutView">
-    <div class="auth-detail" style="margin-bottom:12px">
-      Sign in with Google to connect your account.
-      Your shopping list will remain on this device until cloud sync is enabled.
-    </div>
-    <button class="primary" id="loginBtn" type="button">
-      Sign in with Google
-    </button>
-  </div>
-
-  <div id="signedInView" hidden>
-    <div class="auth-user">
-      <div class="avatar" id="userAvatar">♡</div>
-      <div>
-        <strong id="userName"></strong>
-        <div class="auth-detail" id="userEmail"></div>
-      </div>
-    </div>
-
-    <div class="auth-detail">
-      Firebase User ID (UID)
-    </div>
-
-    <div class="uid-box" id="userUID"></div>
-
-    <div class="auth-actions">
-      <button class="secondary" id="copyUIDBtn" type="button">
-        📋 Copy UID
-      </button>
-      <button class="secondary" id="logoutBtn" type="button">
-        Sign out
-      </button>
-    </div>
-
-    <p class="note">
-      Google Login connected. Real-time sync is not enabled yet.
-    </p>
-  </div>
-
-  <div class="auth-detail" id="authStatus" style="margin-top:10px">
-    Checking login status...
-  </div>
-</section>
-
-<section class="stats">
-  <div class="stat"><b id="total">0</b><span>ทั้งหมด</span></div>
-  <div class="stat"><b id="pending">0</b><span>ยังไม่ซื้อ</span></div>
-  <div class="stat"><b id="done">0</b><span>ซื้อแล้ว</span></div>
-</section>
-
-<section class="progress">
-  <div class="row">
-    <strong>Shopping Progress</strong>
-    <strong id="percent">0%</strong>
-  </div>
-  <div class="bar"><div id="fill"></div></div>
-</section>
-
-<nav class="tabs">
-  <button class="tab active" id="tabPending">
-    🛍️ To Buy <small id="pendingCount">0</small>
-  </button>
-  <button class="tab" id="tabBought">
-    ✓ Completed <small id="boughtCount">0</small>
-  </button>
-</nav>
-
-<div class="row">
-  <h2 id="listTitle">To Buy</h2>
-  <button class="primary" id="addBtn">＋ เพิ่มสินค้า</button>
+<main class="container">
+<div class="row hero">
+<div>
+<div class="muted">YOUR SPACE</div>
+<h1>My Wishlists ♡</h1>
+<div class="muted">เก็บทุกอย่างที่อยากได้ไว้ในที่เดียว</div>
+</div>
+<button class="btn primary" id="newList">＋ New List</button>
 </div>
 
-<section class="toolbar">
-  <div class="filters">
-    <input id="search" placeholder="🔎 ค้นหาสินค้าหรือร้านค้า">
-    <select id="categoryFilter">
-      <option value="">ทุกหมวดหมู่</option>
-    </select>
-    <select id="ownerFilter">
-      <option value="">ทั้งหมด</option>
-      <option value="-">-</option>
-      <option value="มะหมี">มะหมี</option>
-      <option value="น้องจู้">น้องจู้</option>
-      <option value="ทั้งคู่">ทั้งคู่</option>
-      <option value="เพื่อนฝาก">เพื่อนฝาก</option>
-    </select>
-  </div>
+<section id="lists" class="lists"></section>
+
+<section class="panel">
+<div class="row">
+<div>
+<div class="muted">CURRENT LIST</div>
+<h2 id="listTitle"></h2>
+<div class="small" id="budget"></div>
+</div>
+<div class="stats">
+<div class="stat"><strong id="total">0</strong><span class="small">ทั้งหมด</span></div>
+<div class="stat"><strong id="pending">0</strong><span class="small">ยังไม่ซื้อ</span></div>
+<div class="stat"><strong id="bought">0</strong><span class="small">ซื้อแล้ว</span></div>
+</div>
+</div>
+<div class="bar"><div class="fill" id="progress"></div></div>
+<div class="small" id="progressText"></div>
 </section>
 
-<section class="cards" id="list"></section>
+<div class="row" style="margin:24px 0 14px">
+<h2>Shopping List</h2>
+<div class="row">
+<button class="btn" id="manageList">⋯ List</button>
+<button class="btn primary" id="addBtn">＋ Add Item</button>
+</div>
+</div>
 
-<p class="note">
-  ข้อมูลสินค้าและรูปภาพยังบันทึกเฉพาะในเบราว์เซอร์นี้
-  ยังไม่ซิงก์ระหว่างสองเครื่องจนกว่าจะเปิด Cloud Sync
-</p>
+<section class="panel">
+<div class="filters">
+<input class="field" id="search" placeholder="⌕ ค้นหาสินค้า หรือร้านค้า">
+<select class="field" id="catFilter"><option value="">ทุกหมวดหมู่</option></select>
+<select class="field" id="ownerFilter"><option value="">ทุกคน</option></select>
+<select class="field" id="statusFilter">
+<option value="">ทุกสถานะ</option>
+<option value="pending">ยังไม่ซื้อ</option>
+<option value="bought">ซื้อแล้ว</option>
+</select>
+</div>
+<div style="text-align:right;margin-top:10px">
+<select class="field" id="sort" style="max-width:190px">
+<option value="new">ล่าสุดก่อน</option>
+<option value="name">ชื่อ A-Z</option>
+<option value="low">ราคาต่ำก่อน</option>
+<option value="high">ราคาสูงก่อน</option>
+</select>
+</div>
+</section>
 
+<section class="products" id="products"></section>
+<p class="small">ข้อมูลยังเก็บในเบราว์เซอร์เครื่องนี้เท่านั้น ยังไม่ Sync ข้ามเครื่อง กรุณา Backup เป็นระยะ</p>
 </main>
 
-<!-- PRODUCT FORM -->
-
 <div class="overlay" id="overlay">
-<div class="modal">
-
-  <div class="row">
-    <h2 id="formTitle">เพิ่มสินค้า</h2>
-    <button class="secondary" id="closeBtn" type="button">✕</button>
-  </div>
-
-  <form id="form">
-    <input id="editId" type="hidden">
-
-    <label>ชื่อสินค้า *</label>
-    <input id="productName" required placeholder="เช่น On Cloudtilt">
-
-    <div class="formgrid">
-      <div>
-        <label>หมวดหมู่</label>
-        <select id="category"></select>
-      </div>
-
-      <div>
-        <label>ใครอยากได้</label>
-        <select id="owner">
-          <option value="-" selected>-</option>
-          <option value="มะหมี">มะหมี</option>
-          <option value="น้องจู้">น้องจู้</option>
-          <option value="ทั้งคู่">ทั้งคู่</option>
-          <option value="เพื่อนฝาก">เพื่อนฝาก</option>
-        </select>
-      </div>
-
-      <div>
-        <label>ราคาไทย (฿)</label>
-        <input id="priceTH" type="number" min="0" step=".01">
-      </div>
-
-      <div>
-        <label>ราคาญี่ปุ่น (¥)</label>
-        <input id="priceJP" type="number" min="0" step=".01">
-      </div>
-
-      <div>
-        <label>จำนวน (ไม่บังคับ)</label>
-        <input id="qty" type="number" min="1" step="1" placeholder="1">
-      </div>
-
-      <div>
-        <label>สถานะ</label>
-        <select id="status">
-          <option value="pending">ยังไม่ซื้อ</option>
-          <option value="bought">ซื้อแล้ว</option>
-        </select>
-      </div>
-
-      <div class="full">
-        <label>ร้านค้า / สถานที่ซื้อ</label>
-        <input id="shop" placeholder="เช่น UNIQLO Ginza">
-      </div>
-
-      <div class="full">
-        <label>สี / ไซส์ / รายละเอียด</label>
-        <input id="description" placeholder="เช่น All White · US Men 7.5">
-      </div>
-
-      <div class="full">
-        <label>📸 รูปสินค้า / Screenshot</label>
-        <input id="photoFile" type="file" accept="image/*">
-
-        <div class="photo-controls">
-          <button type="button" class="secondary" id="pasteBtn">
-            📋 วางรูปที่คัดลอก
-          </button>
-          <button type="button" class="danger" id="clearPhotoBtn">
-            ลบรูป
-          </button>
-        </div>
-
-        <img id="preview" class="preview" alt="ตัวอย่างรูปสินค้า">
-
-        <p class="note">
-          เลือกรูปจาก Photos หรือ Screenshot ได้โดยตรง
-          ระบบจะย่อรูปก่อนบันทึก
-        </p>
-      </div>
-
-      <div class="full">
-        <label>หรือใส่ลิงก์รูปภาพ</label>
-        <input id="imageUrl" type="url" placeholder="https://...">
-      </div>
-    </div>
-
-    <div class="form-actions">
-      <button type="button" class="secondary" id="cancelBtn">
-        ยกเลิก
-      </button>
-      <button type="submit" class="primary">
-        บันทึกสินค้า
-      </button>
-    </div>
-  </form>
+<div class="modal" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+<div class="row">
+<h2 id="formTitle">Add Item</h2>
+<button class="btn iconbtn" id="closeBtn" type="button">×</button>
+</div>
+<form id="form">
+<input type="hidden" id="editId">
+<div class="formgrid">
+<div class="full">
+<label>ชื่อสินค้า *</label>
+<input class="field" id="itemName" maxlength="180" required>
+</div>
+<div>
+<label>หมวดหมู่</label>
+<select class="field" id="category"></select>
+</div>
+<div>
+<label>ใครอยากได้</label>
+<input class="field" id="owner" placeholder="เรา / แฟน / ทั้งคู่">
+</div>
+<div>
+<label>ราคา</label>
+<input class="field" id="price" type="number" min="0" step=".01">
+</div>
+<div>
+<label>สกุลเงิน</label>
+<select class="field" id="currency">
+<option value="THB">THB ฿</option>
+<option value="JPY">JPY ¥</option>
+<option value="USD">USD $</option>
+<option value="EUR">EUR €</option>
+</select>
+</div>
+<div>
+<label>จำนวน</label>
+<input class="field" id="qty" type="number" min="1" step="1" value="1">
+</div>
+<div>
+<label>สถานะ</label>
+<select class="field" id="status">
+<option value="pending">ยังไม่ซื้อ</option>
+<option value="bought">ซื้อแล้ว</option>
+</select>
+</div>
+<div class="full">
+<label>ร้านค้า</label>
+<input class="field" id="store">
+</div>
+<div class="full">
+<label>สี / ไซส์ / รายละเอียด</label>
+<input class="field" id="description">
+</div>
+<div class="full">
+<label>ลิงก์รูปสินค้า (HTTPS)</label>
+<input class="field" id="image" type="url" placeholder="https://...">
+</div>
+<div class="full">
+<label>ลิงก์หน้าสินค้า (HTTPS)</label>
+<input class="field" id="productLink" type="url" placeholder="https://...">
 </div>
 </div>
-
-<div id="toast" class="toast" role="status"></div>
-
-<!-- FIREBASE AUTHENTICATION -->
-
-<script type="module">
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithRedirect,
-  getRedirectResult,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDJ5O1XZuPHSH3HLUH7A1-pVeRmJV3lcys",
-  authDomain: "smart-basket-d4188.firebaseapp.com",
-  projectId: "smart-basket-d4188",
-  storageBucket: "smart-basket-d4188.firebasestorage.app",
-  messagingSenderId: "323492366493",
-  appId: "1:323492366493:web:d63826a62d2aa66be9ec74",
-  measurementId: "G-BMP1YZVYC3"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-const $ = id => document.getElementById(id);
-
-function authMessage(message){
-  $("authStatus").textContent = message;
-}
-
-function showUser(user){
-  $("signedOutView").hidden = !!user;
-  $("signedInView").hidden = !user;
-
-  if(!user){
-    authMessage("Not signed in · Shopping list is stored locally");
-    return;
-  }
-
-  $("userName").textContent = user.displayName || "Google User";
-  $("userEmail").textContent = user.email || "";
-  $("userUID").textContent = user.uid;
-
-  const avatar = $("userAvatar");
-  avatar.replaceChildren();
-
-  if(user.photoURL){
-    const img = document.createElement("img");
-    img.src = user.photoURL;
-    img.alt = "Profile";
-    avatar.append(img);
-  }else{
-    avatar.textContent = (user.displayName || "U").charAt(0);
-  }
-
-  authMessage("✓ Google account connected");
-}
-
-$("loginBtn").addEventListener("click",async()=>{
-  try{
-    authMessage("Redirecting to Google...");
-    await signInWithRedirect(auth,provider);
-  }catch(error){
-    authMessage("Login failed: "+error.message);
-  }
-});
-
-$("logoutBtn").addEventListener("click",async()=>{
-  try{
-    await signOut(auth);
-  }catch(error){
-    authMessage("Sign out failed: "+error.message);
-  }
-});
-
-$("copyUIDBtn").addEventListener("click",async()=>{
-  const uid = $("userUID").textContent;
-
-  try{
-    await navigator.clipboard.writeText(uid);
-    authMessage("✓ UID copied");
-  }catch(error){
-    authMessage("Please select and copy the UID manually");
-  }
-});
-
-getRedirectResult(auth).catch(error=>{
-  authMessage("Google login error: "+error.code);
-});
-
-onAuthStateChanged(auth,user=>{
-  showUser(user);
-},error=>{
-  authMessage("Authentication error: "+error.message);
-});
-</script>
-
-<!-- EXISTING SHOPPING LIST -->
+<div class="footer">
+<button class="btn" type="button" id="cancelBtn">Cancel</button>
+<button class="btn primary" type="submit">Save Item</button>
+</div>
+</form>
+</div>
+</div>
 
 <script>
 "use strict";
 
-const KEY = "japan_together_v3";
+const KEY="smart_basket_v5";
+const $=id=>document.getElementById(id);
+const CATS=["รองเท้า","เสื้อผ้า","กระเป๋า","อาหาร","ขนม","เครื่องสำอาง","ของใช้","อิเล็กทรอนิกส์","อื่นๆ"];
+const ICONS={"รองเท้า":"👟","เสื้อผ้า":"🧥","กระเป๋า":"👜","อาหาร":"🍱","ขนม":"🍫","เครื่องสำอาง":"💄","ของใช้":"🧴","อิเล็กทรอนิกส์":"📱"};
 
-const CATEGORIES = [
-  "รองเท้า","เสื้อผ้า","กระเป๋า","อาหาร","ขนม",
-  "เครื่องสำอาง","ของใช้","อิเล็กทรอนิกส์","อื่นๆ"
-];
+function uid(){
+return crypto.randomUUID ? crypto.randomUUID() :
+Date.now()+"-"+Math.random().toString(36).slice(2);
+}
 
-const ICONS = {
-  "รองเท้า":"👟",
-  "เสื้อผ้า":"🧥",
-  "กระเป๋า":"👜",
-  "อาหาร":"🍱",
-  "ขนม":"🍫",
-  "เครื่องสำอาง":"💄",
-  "ของใช้":"🧴",
-  "อิเล็กทรอนิกส์":"📱"
+function seed(){
+const id=uid();
+return {
+version:5,
+active:id,
+lists:[{
+id,name:"Japan 2026",emoji:"🇯🇵",
+items:[
+{id:uid(),name:"On Cloudtilt",category:"รองเท้า",owner:"เรา",description:"All White · Men US 7.5",price:6600,currency:"THB",qty:1,store:"On",image:"",productLink:"",status:"pending",createdAt:3},
+{id:uid(),name:"UNIQLO เสื้อคลุม",category:"เสื้อผ้า",owner:"แฟน",description:"สีน้ำตาล · Women XL",price:null,currency:"JPY",qty:1,store:"UNIQLO",image:"",productLink:"",status:"pending",createdAt:2},
+{id:uid(),name:"3COINS กระเป๋าพับได้",category:"กระเป๋า",owner:"ทั้งคู่",description:"กระเป๋าพับเก็บได้",price:null,currency:"JPY",qty:1,store:"3COINS",image:"",productLink:"",status:"pending",createdAt:1}
+]
+}]
 };
+}
 
-const SAMPLE = [
-  {
-    id:"1",
-    name:"On Cloudtilt",
-    category:"รองเท้า",
-    owner:"มะหมี",
-    description:"All White · US Men 7.5",
-    priceTH:6600,
-    priceJP:null,
-    shop:"On / ร้านรองเท้า",
-    qty:1,
-    status:"pending",
-    image:""
-  },
-  {
-    id:"2",
-    name:"UNIQLO เสื้อคลุม",
-    category:"เสื้อผ้า",
-    owner:"น้องจู้",
-    description:"สีน้ำตาล · Women XL",
-    priceTH:null,
-    priceJP:null,
-    shop:"UNIQLO",
-    qty:1,
-    status:"pending",
-    image:""
-  },
-  {
-    id:"3",
-    name:"3COINS กระเป๋าพับได้",
-    category:"กระเป๋า",
-    owner:"ทั้งคู่",
-    description:"กระเป๋าพับเก็บได้",
-    priceTH:null,
-    priceJP:null,
-    shop:"3COINS",
-    qty:1,
-    status:"pending",
-    image:""
-  }
-];
+function valid(s){
+return s&&s.version===5&&Array.isArray(s.lists)&&
+s.lists.length<=100&&s.lists.every(l=>
+typeof l.id==="string"&&typeof l.name==="string"&&
+Array.isArray(l.items)&&l.items.length<=10000&&
+l.items.every(i=>typeof i.id==="string"&&typeof i.name==="string"));
+}
 
-const $ = id => document.getElementById(id);
-
-let products;
-
+let state;
 try{
-  const raw = localStorage.getItem(KEY);
-  products = raw ? JSON.parse(raw) : SAMPLE.map(x=>({...x}));
-  if(!Array.isArray(products)) throw Error("Invalid data");
-}catch(e){
-  products = SAMPLE.map(x=>({...x}));
-}
-
-products = products.map(p=>({
-  ...p,
-  owner:
-    p.owner==="เรา" ? "มะหมี" :
-    p.owner==="แฟน" ? "น้องจู้" :
-    (p.owner || "-")
-}));
-
-let active = "pending";
-let pendingImage = null;
-let photoRemoved = false;
-let processing = false;
-
-const imageCache = new Map();
-
-function notify(message){
-  const el = $("toast");
-  el.textContent = message;
-  el.style.display = "block";
-  clearTimeout(notify.timer);
-  notify.timer = setTimeout(()=>{
-    el.style.display = "none";
-  },3000);
-}
+const raw=localStorage.getItem(KEY);
+state=raw?JSON.parse(raw):seed();
+if(!valid(state))throw Error("Invalid data");
+}catch(e){state=seed()}
 
 function save(){
-  try{
-    localStorage.setItem(KEY,JSON.stringify(products));
-    return true;
-  }catch(e){
-    notify("พื้นที่จัดเก็บเต็ม กรุณาใช้รูปที่เล็กลง");
-    return false;
-  }
+try{
+localStorage.setItem(KEY,JSON.stringify(state));
+return true;
+}catch(e){
+alert("บันทึกไม่สำเร็จ กรุณาสำรองข้อมูล");
+return false;
+}
 }
 
-function money(v,c){
-  if(v===null||v===undefined||v==="") return "ยังไม่ระบุ";
-  return new Intl.NumberFormat("th-TH",{
-    style:"currency",
-    currency:c,
-    maximumFractionDigits:0
-  }).format(v);
+function change(fn){
+const before=JSON.stringify(state);
+fn();
+if(!save())state=JSON.parse(before);
+render();
 }
 
-function esc(s){
-  return String(s??"").replace(/[&<>"']/g,c=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  }[c]));
+function active(){
+return state.lists.find(l=>l.id===state.active)||state.lists[0];
 }
 
-function imageTerm(p){
-  return [p.name,p.description].filter(Boolean).join(" ").trim();
+function money(n,c){
+if(n===null||n===undefined||n==="")return "ยังไม่ระบุราคา";
+try{
+return new Intl.NumberFormat("th-TH",{
+style:"currency",currency:c||"THB",maximumFractionDigits:0
+}).format(Number(n));
+}catch(e){return String(n)}
 }
 
-function relevance(title,term){
-  const tokens = term.toLowerCase().split(/\s+/)
-    .filter(t=>t.length>2&&!["women","size","white","brown"].includes(t));
-
-  if(!tokens.length) return 0;
-
-  const t = title.toLowerCase();
-  return tokens.filter(x=>t.includes(x)).length/tokens.length;
+function element(tag,cls,text){
+const e=document.createElement(tag);
+if(cls)e.className=cls;
+if(text!==undefined)e.textContent=String(text);
+return e;
 }
 
-async function findImage(p){
-  const term = imageTerm(p);
-  if(imageCache.has(term)) return imageCache.get(term);
-
-  const task = (async()=>{
-    try{
-      const api = "https://commons.wikimedia.org/w/api.php"+
-        "?action=query&generator=search"+
-        "&gsrsearch="+encodeURIComponent(term)+
-        "&gsrnamespace=6&gsrlimit=20"+
-        "&prop=imageinfo&iiprop=url&iiurlwidth=360"+
-        "&format=json&origin=*";
-
-      const res = await fetch(api);
-      if(!res.ok) throw Error("Search failed");
-
-      const data = await res.json();
-
-      const candidates = Object.values(data.query?.pages||{})
-        .filter(x=>x.imageinfo?.[0]?.thumburl &&
-          /\.(jpg|jpeg|png|webp)$/i.test(x.title||""))
-        .map(x=>({
-          url:x.imageinfo[0].thumburl,
-          score:relevance(x.title,term)
-        }))
-        .sort((a,b)=>b.score-a.score);
-
-      return candidates[0]?.score>=0.85 ? candidates[0].url : "";
-    }catch(e){
-      return "";
-    }
-  })();
-
-  imageCache.set(term,task);
-  return task;
-}
-
-function renderPhoto(p,box){
-  box.textContent = ICONS[p.category] || "🛍️";
-
-  const use = url=>{
-    if(!url||!box.isConnected) return;
-
-    const img = new Image();
-    img.alt = p.name;
-
-    img.onload = ()=>{
-      if(box.isConnected) box.replaceChildren(img);
-    };
-
-    img.src = url;
-  };
-
-  if(p.image) use(p.image);
-  else findImage(p).then(use);
+function button(text,cls,action){
+const b=element("button","btn "+cls,text);
+b.type="button";
+b.onclick=action;
+return b;
 }
 
 function render(){
-  const bought = products.filter(p=>p.status==="bought").length;
-  const pending = products.length-bought;
+if(!state.lists.length){
+state.lists=[{id:uid(),name:"My Wishlist",emoji:"💜",items:[]}];
+}
+if(!state.lists.some(l=>l.id===state.active)){
+state.active=state.lists[0].id;
+}
+const l=active();
+const root=$("lists");
+root.replaceChildren();
 
-  $("total").textContent = products.length;
-  $("pending").textContent = pending;
-  $("done").textContent = bought;
-  $("pendingCount").textContent = pending;
-  $("boughtCount").textContent = bought;
+state.lists.forEach(x=>{
+const b=element("button","listcard"+(x.id===l.id?" active":""));
+b.type="button";
+b.append(
+element("div","",x.emoji||"💜"),
+element("strong","",x.name),
+element("div","muted",x.items.length+" items · "+x.items.filter(i=>i.status==="bought").length+" bought")
+);
+b.onclick=()=>{
+state.active=x.id;
+save();
+render();
+};
+root.append(b);
+});
 
-  const pct = products.length
-    ? Math.round(100*bought/products.length)
-    : 0;
+$("listTitle").textContent=(l.emoji||"💜")+" "+l.name;
+const total=l.items.length;
+const bought=l.items.filter(i=>i.status==="bought").length;
+$("total").textContent=total;
+$("pending").textContent=total-bought;
+$("bought").textContent=bought;
+const pct=total?Math.round(bought/total*100):0;
+$("progress").style.width=pct+"%";
+$("progressText").textContent=pct+"% completed";
 
-  $("percent").textContent = pct+"%";
-  $("fill").style.width = pct+"%";
+const totals={};
+l.items.filter(i=>i.status==="pending"&&i.price!=null).forEach(i=>{
+const c=i.currency||"THB";
+totals[c]=(totals[c]||0)+Number(i.price)*(Number(i.qty)||1);
+});
+$("budget").textContent=Object.keys(totals).length?
+"ยอดที่ยังไม่ซื้อ: "+Object.entries(totals).map(([c,n])=>money(n,c)).join(" · "):
+"ยังไม่มีราคาสินค้าที่รอซื้อ";
 
-  $("tabPending").classList.toggle("active",active==="pending");
-  $("tabBought").classList.toggle("active",active==="bought");
-
-  $("listTitle").textContent =
-    active==="pending" ? "To Buy" : "Completed";
-
-  const q = $("search").value.trim().toLowerCase();
-  const cat = $("categoryFilter").value;
-  const owner = $("ownerFilter").value;
-
-  const visible = products.filter(p=>
-    p.status===active &&
-    (!q||[p.name,p.description,p.shop].join(" ").toLowerCase().includes(q)) &&
-    (!cat||p.category===cat) &&
-    (!owner||(p.owner||"-")===owner)
-  );
-
-  const list = $("list");
-  list.replaceChildren();
-
-  if(!visible.length){
-    const empty = document.createElement("div");
-    empty.className = "empty";
-    empty.textContent = active==="pending"
-      ? "ไม่มีรายการที่ต้องซื้อ 🛍️"
-      : "ยังไม่มีรายการที่ซื้อแล้ว ✓";
-    list.append(empty);
-    return;
-  }
-
-  for(const p of visible){
-    const card = document.createElement("article");
-    card.className = "card";
-
-    const main = document.createElement("div");
-    main.className = "card-main";
-
-    const photo = document.createElement("div");
-    photo.className = "imagebox";
-
-    const info = document.createElement("div");
-    info.className = "info";
-
-    info.innerHTML = `
-      <div class="name">${esc(p.name)}</div>
-      <div class="desc">${esc(p.description||"")}</div>
-      <div class="yen">${money(p.priceJP,"JPY")}</div>
-      <div class="thai">🇹🇭 ราคาไทย: ${money(p.priceTH,"THB")}</div>
-      <div class="shop">📍 ${esc(p.shop||"ยังไม่ระบุร้าน")}</div>
-      <div class="shop">จำนวน ${esc(p.qty||1)} ชิ้น</div>
-      <div class="tags">
-        <span class="tag">${esc(p.category)}</span>
-        <span class="tag">♡ ${esc(p.owner||"-")}</span>
-        <span class="tag ${p.status==="bought"?"done":""}">
-          ${p.status==="bought"?"✓ ซื้อแล้ว":"○ ยังไม่ซื้อ"}
-        </span>
-      </div>
-    `;
-
-    main.append(photo,info);
-
-    const actions = document.createElement("div");
-    actions.className = "actions";
-
-    const toggle = document.createElement("button");
-    toggle.className = p.status==="bought"
-      ? "secondary toggle" : "primary toggle";
-    toggle.textContent = p.status==="bought"
-      ? "↩ ยังไม่ซื้อ" : "✓ ซื้อแล้ว";
-    toggle.onclick = ()=>toggleStatus(p.id);
-
-    const edit = document.createElement("button");
-    edit.className = "secondary";
-    edit.textContent = "✎";
-    edit.setAttribute("aria-label","แก้ไข");
-    edit.onclick = ()=>openForm(p.id);
-
-    const del = document.createElement("button");
-    del.className = "danger";
-    del.textContent = "🗑";
-    del.setAttribute("aria-label","ลบ");
-    del.onclick = ()=>removeProduct(p.id);
-
-    actions.append(toggle,edit,del);
-    card.append(main,actions);
-    list.append(card);
-    renderPhoto(p,photo);
-  }
+const cat=$("catFilter").value;
+const owner=$("ownerFilter").value;
+$("catFilter").replaceChildren(
+new Option("ทุกหมวดหมู่",""),
+...CATS.map(c=>new Option(c,c))
+);
+$("catFilter").value=cat;
+$("ownerFilter").replaceChildren(
+new Option("ทุกคน",""),
+...Array.from(new Set(l.items.map(i=>i.owner).filter(Boolean))).map(o=>new Option(o,o))
+);
+$("ownerFilter").value=owner;
+renderItems();
 }
 
-function toggleStatus(id){
-  const p = products.find(x=>x.id===id);
-  if(!p) return;
+function renderItems(){
+const l=active();
+const q=$("search").value.toLowerCase().trim();
+const cat=$("catFilter").value;
+const owner=$("ownerFilter").value;
+const status=$("statusFilter").value;
+const sort=$("sort").value;
 
-  const old = p.status;
-  p.status = old==="bought" ? "pending" : "bought";
+const items=l.items.filter(i=>
+(!q||[i.name,i.description,i.store,i.category].join(" ").toLowerCase().includes(q))&&
+(!cat||i.category===cat)&&
+(!owner||i.owner===owner)&&
+(!status||i.status===status)
+);
 
-  if(!save()){
-    p.status = old;
-    return;
-  }
+items.sort((a,b)=>{
+if(sort==="name")return a.name.localeCompare(b.name,"th");
+if(sort==="low")return (a.price??Infinity)-(b.price??Infinity);
+if(sort==="high")return (b.price??-Infinity)-(a.price??-Infinity);
+return (b.createdAt||0)-(a.createdAt||0);
+});
 
-  render();
-  notify(p.status==="bought"
-    ? "ย้ายไป Completed แล้ว ✓"
-    : "ย้ายกลับ To Buy แล้ว");
+const root=$("products");
+root.replaceChildren();
+
+if(!items.length){
+root.append(element("div","empty","ยังไม่มีสินค้าที่ตรงกับเงื่อนไข ✨"));
+return;
 }
 
-function removeProduct(id){
-  if(!confirm("ลบสินค้านี้ออกจากรายการ?")) return;
+items.forEach(i=>{
+const card=element("article","product");
+const body=element("div","productbody");
+let photo;
 
-  const old = products;
-  products = products.filter(x=>x.id!==id);
+if(i.image&&/^https:\/\//i.test(i.image)){
+photo=element("img","photo");
+photo.src=i.image;
+photo.alt=i.name;
+photo.loading="lazy";
+photo.referrerPolicy="no-referrer";
+photo.onerror=()=>{
+photo.replaceWith(element("div","photo placeholder",ICONS[i.category]||"🛍️"));
+};
+}else{
+photo=element("div","photo placeholder",ICONS[i.category]||"🛍️");
+}
+body.append(photo);
 
-  if(!save()) products = old;
-  render();
+const info=element("div");
+info.append(element("div","name",i.name));
+if(i.description)info.append(element("div","muted",i.description));
+info.append(element("div","price",money(i.price,i.currency)));
+info.append(element("div","small","📍 "+(i.store||"ไม่ระบุร้าน")+" · จำนวน "+(i.qty||1)));
+
+const tags=element("div","tags");
+[
+i.category||"อื่นๆ",
+"♡ "+(i.owner||"ไม่ระบุ"),
+i.status==="bought"?"✓ ซื้อแล้ว":"○ ยังไม่ซื้อ"
+].forEach((t,index)=>{
+tags.append(element("span","tag"+(index===2&&i.status==="bought"?" done":""),t));
+});
+info.append(tags);
+
+if(i.productLink&&/^https:\/\//i.test(i.productLink)){
+const link=element("a","small","ดูสินค้าที่ร้าน ↗");
+link.href=i.productLink;
+link.target="_blank";
+link.rel="noopener noreferrer";
+info.append(link);
 }
 
-function showPreview(src){
-  const preview = $("preview");
-  preview.style.display = src ? "block" : "none";
+body.append(info);
+card.append(body);
 
-  if(src) preview.src = src;
-  else preview.removeAttribute("src");
+const actions=element("div","actions");
+actions.append(
+button(i.status==="bought"?"↶ ยังไม่ซื้อ":"✓ ซื้อแล้ว",
+"buy "+(i.status==="bought"?"":"primary"),
+()=>change(()=>{i.status=i.status==="bought"?"pending":"bought"})
+),
+button("✎","iconbtn",()=>openForm(i)),
+button("🗑","iconbtn danger",()=>{
+if(confirm("ลบ "+i.name+" ?")){
+change(()=>{l.items=l.items.filter(x=>x.id!==i.id)});
+}
+})
+);
+card.append(actions);
+root.append(card);
+});
 }
 
-function openForm(id){
-  $("form").reset();
-  $("editId").value = "";
-  $("formTitle").textContent = "เพิ่มสินค้า";
-  $("status").value = active;
-  $("owner").value = "-";
+function openForm(i){
+$("form").reset();
+$("editId").value=i?.id||"";
+$("formTitle").textContent=i?"Edit Item":"Add Item";
+$("category").replaceChildren(...CATS.map(c=>new Option(c,c)));
+$("category").value=i?.category||"อื่นๆ";
 
-  pendingImage = null;
-  photoRemoved = false;
-  showPreview("");
+const fields=["itemName","owner","price","currency","qty","status","store","description","image","productLink"];
+const keys=["name","owner","price","currency","qty","status","store","description","image","productLink"];
 
-  if(id){
-    const p = products.find(x=>x.id===id);
-    if(!p) return;
-
-    $("formTitle").textContent = "แก้ไขสินค้า";
-    $("editId").value = String(p.id);
-    $("productName").value = p.name;
-    $("category").value = p.category;
-    $("owner").value = p.owner||"-";
-    $("priceTH").value = p.priceTH??"";
-    $("priceJP").value = p.priceJP??"";
-    $("qty").value = p.qty??"";
-    $("status").value = p.status;
-    $("shop").value = p.shop||"";
-    $("description").value = p.description||"";
-
-    if(p.image?.startsWith("data:")){
-      showPreview(p.image);
-    }else if(p.image?.startsWith("http")){
-      $("imageUrl").value = p.image;
-      showPreview(p.image);
-    }
-  }
-
-  $("overlay").classList.add("open");
+if(i){
+fields.forEach((f,index)=>{
+$(f).value=i[keys[index]]??"";
+});
+}else{
+$("owner").value="เรา";
+$("qty").value=1;
+$("currency").value="THB";
+$("status").value="pending";
+}
+$("overlay").classList.add("show");
+$("itemName").focus();
 }
 
 function closeForm(){
-  $("overlay").classList.remove("open");
+$("overlay").classList.remove("show");
 }
 
-function compressImage(file){
-  return new Promise((resolve,reject)=>{
-    if(!file.type.startsWith("image/")){
-      return reject(Error("ไม่ใช่ไฟล์รูปภาพ"));
-    }
+$("form").onsubmit=e=>{
+e.preventDefault();
+const l=active();
+const id=$("editId").value;
+const old=l.items.find(i=>i.id===id);
+const name=$("itemName").value.trim();
+if(!name)return;
 
-    const reader = new FileReader();
-    reader.onerror = ()=>reject(Error("อ่านรูปไม่สำเร็จ"));
-
-    reader.onload = ()=>{
-      const img = new Image();
-      img.onerror = ()=>reject(Error("เปิดรูปไม่สำเร็จ"));
-
-      img.onload = ()=>{
-        const max = 900;
-        const scale = Math.min(1,max/Math.max(img.width,img.height));
-        const canvas = document.createElement("canvas");
-
-        canvas.width = Math.max(1,Math.round(img.width*scale));
-        canvas.height = Math.max(1,Math.round(img.height*scale));
-
-        const ctx = canvas.getContext("2d");
-        ctx.fillStyle = "#fff";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.drawImage(img,0,0,canvas.width,canvas.height);
-
-        resolve(canvas.toDataURL("image/jpeg",0.72));
-      };
-
-      img.src = reader.result;
-    };
-
-    reader.readAsDataURL(file);
-  });
-}
-
-async function acceptImage(file){
-  if(!file) return;
-
-  processing = true;
-
-  try{
-    pendingImage = await compressImage(file);
-    photoRemoved = false;
-    $("imageUrl").value = "";
-    showPreview(pendingImage);
-    notify("เพิ่มรูปเรียบร้อย");
-  }catch(e){
-    notify(e.message||"ไม่สามารถอ่านรูปได้");
-  }finally{
-    processing = false;
-  }
-}
-
-$("photoFile").addEventListener("change",e=>{
-  acceptImage(e.target.files?.[0]);
-});
-
-$("pasteBtn").onclick = async()=>{
-  if(!navigator.clipboard?.read){
-    notify("เบราว์เซอร์ไม่รองรับการวางรูป กรุณาเลือกรูปจาก Photos");
-    return;
-  }
-
-  try{
-    const items = await navigator.clipboard.read();
-
-    for(const item of items){
-      const type = item.types.find(t=>t.startsWith("image/"));
-
-      if(type){
-        const blob = await item.getType(type);
-        await acceptImage(blob);
-        return;
-      }
-    }
-
-    notify("ไม่มีรูปภาพในคลิปบอร์ด");
-  }catch(e){
-    notify("ไม่สามารถวางรูปได้ กรุณาเลือกรูปจาก Photos");
-  }
+const item={
+id:old?.id||uid(),
+name,
+category:$("category").value,
+owner:$("owner").value.trim(),
+price:$("price").value===""?null:Number($("price").value),
+currency:$("currency").value,
+qty:Math.max(1,Math.floor(Number($("qty").value)||1)),
+status:$("status").value,
+store:$("store").value.trim(),
+description:$("description").value.trim(),
+image:$("image").value.trim(),
+productLink:$("productLink").value.trim(),
+createdAt:old?.createdAt||Date.now()
 };
 
-$("clearPhotoBtn").onclick = ()=>{
-  pendingImage = null;
-  photoRemoved = true;
-  $("photoFile").value = "";
-  $("imageUrl").value = "";
-  showPreview("");
-  notify("ลบรูปออกจากแบบฟอร์มแล้ว");
+change(()=>{
+if(old)l.items=l.items.map(x=>x.id===id?item:x);
+else l.items.unshift(item);
+});
+closeForm();
 };
 
-$("imageUrl").addEventListener("input",e=>{
-  if(e.target.value.trim()){
-    pendingImage = null;
-    photoRemoved = false;
-    showPreview(e.target.value.trim());
-  }
+$("addBtn").onclick=()=>openForm();
+$("closeBtn").onclick=closeForm;
+$("cancelBtn").onclick=closeForm;
+$("overlay").onclick=e=>{
+if(e.target===$("overlay"))closeForm();
+};
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape")closeForm();
 });
 
-$("form").addEventListener("submit",e=>{
-  e.preventDefault();
-
-  if(processing){
-    notify("กำลังเตรียมรูป กรุณารอสักครู่");
-    return;
-  }
-
-  const id = $("editId").value;
-  const existing = products.find(p=>String(p.id)===id);
-  const num = k=>$(k).value==="" ? null : Number($(k).value);
-  const url = $("imageUrl").value.trim();
-
-  const item = {
-    id:id||String(Date.now())+Math.random().toString(36).slice(2),
-    name:$("productName").value.trim(),
-    category:$("category").value,
-    owner:$("owner").value||"-",
-    description:$("description").value.trim(),
-    priceTH:num("priceTH"),
-    priceJP:num("priceJP"),
-    qty:num("qty")||1,
-    shop:$("shop").value.trim(),
-    status:$("status").value,
-    image:pendingImage||url||
-      (photoRemoved?"":existing?.image||"")
-  };
-
-  if(!item.name) return;
-
-  const old = products;
-
-  products = id
-    ? products.map(p=>String(p.id)===id?item:p)
-    : [item,...products];
-
-  if(!save()){
-    products = old;
-    return;
-  }
-
-  closeForm();
-  render();
-  notify("บันทึกสินค้าแล้ว");
+$("newList").onclick=()=>{
+const name=prompt("ชื่อ Wishlist ใหม่");
+if(!name?.trim())return;
+change(()=>{
+const l={id:uid(),name:name.trim().slice(0,100),emoji:"💜",items:[]};
+state.lists.push(l);
+state.active=l.id;
 });
+};
 
-for(const cat of CATEGORIES){
-  $("categoryFilter").add(new Option(cat,cat));
-  $("category").add(new Option(cat,cat));
+$("manageList").onclick=()=>{
+const l=active();
+const action=prompt("พิมพ์ 1 เพื่อเปลี่ยนชื่อ หรือ 2 เพื่อลบลิสต์","1");
+if(action==="1"){
+const name=prompt("ชื่อใหม่",l.name);
+if(name?.trim())change(()=>{l.name=name.trim().slice(0,100)});
+}else if(action==="2"){
+if(state.lists.length===1){
+alert("ต้องเหลืออย่างน้อย 1 Wishlist");
+return;
 }
-
-for(const id of ["search","categoryFilter","ownerFilter"]){
-  $(id).addEventListener(id==="search"?"input":"change",render);
-}
-
-$("tabPending").onclick = ()=>{
-  active = "pending";
-  render();
-};
-
-$("tabBought").onclick = ()=>{
-  active = "bought";
-  render();
-};
-
-$("addBtn").onclick = ()=>openForm();
-$("closeBtn").onclick = closeForm;
-$("cancelBtn").onclick = closeForm;
-
-$("overlay").addEventListener("click",e=>{
-  if(e.target===$("overlay")) closeForm();
+if(confirm("ลบลิสต์ "+l.name+" และสินค้าทั้งหมด?")){
+change(()=>{
+state.lists=state.lists.filter(x=>x.id!==l.id);
+state.active=state.lists[0].id;
 });
+}
+}
+};
+
+["search","catFilter","ownerFilter","statusFilter","sort"].forEach(id=>{
+$(id).addEventListener(id==="search"?"input":"change",renderItems);
+});
+
+$("backupBtn").onclick=()=>{
+const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url;
+a.download="smart-basket-backup.json";
+a.click();
+setTimeout(()=>URL.revokeObjectURL(url),2000);
+};
+
+$("importBtn").onclick=()=>$("importFile").click();
+
+$("importFile").onchange=async e=>{
+const file=e.target.files?.[0];
+if(!file)return;
+try{
+if(file.size>5*1024*1024)throw Error("ไฟล์ใหญ่เกิน 5 MB");
+const data=JSON.parse(await file.text());
+if(!valid(data))throw Error("ไฟล์ไม่ใช่ Smart Basket V5 Backup");
+if(!confirm("ข้อมูลที่นำเข้าจะทับข้อมูลปัจจุบัน ต้องการดำเนินการต่อ?"))return;
+const old=state;
+state=data;
+if(!save()){state=old;return}
+render();
+alert("นำเข้าข้อมูลสำเร็จ");
+}catch(err){
+alert(err.message);
+}finally{
+e.target.value="";
+}
+};
 
 render();
 </script>
-
 </body>
 </html>
