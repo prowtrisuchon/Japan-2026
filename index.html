@@ -451,7 +451,7 @@ label{
     </div>
 
     <p class="note">
-      Google Login connected. Real-time sync is not enabled yet.
+      Your shopping list is shared and synced with Firebase.
     </p>
   </div>
 
@@ -508,8 +508,7 @@ label{
 <section class="cards" id="list"></section>
 
 <p class="note">
-  ข้อมูลสินค้าและรูปภาพยังบันทึกเฉพาะในเบราว์เซอร์นี้
-  ยังไม่ซิงก์ระหว่างสองเครื่องจนกว่าจะเปิด Cloud Sync
+  ☁️ รายการสินค้าซิงก์ผ่าน Firebase เมื่อเข้าสู่ระบบ Google
 </p>
 
 </main>
@@ -630,7 +629,7 @@ import { initializeApp } from
 import {
   getAuth,
   GoogleAuthProvider,
-  signInWithRedirect,
+  signInWithPopup,
   getRedirectResult,
   onAuthStateChanged,
   signOut
@@ -687,7 +686,7 @@ function showUser(user){
 $("loginBtn").addEventListener("click",async()=>{
   try{
     authMessage("Redirecting to Google...");
-    await signInWithRedirect(auth,provider);
+    await signInWithPopup(auth,provider);
   }catch(error){
     authMessage("Login failed: "+error.message);
   }
@@ -1284,6 +1283,129 @@ $("overlay").addEventListener("click",e=>{
 });
 
 render();
+</script>
+
+<!-- SMART BASKET FIREBASE CLOUD SYNC -->
+<script>
+window.smartCloud = { ready: false, write: null };
+
+window.applySmartCloud = function(items) {
+  products = Array.isArray(items) ? items : [];
+  render();
+};
+
+save = function() {
+  if (!window.smartCloud.ready || !window.smartCloud.write) {
+    notify("กรุณา Sign in with Google ก่อนบันทึก");
+    return false;
+  }
+
+  const items = JSON.parse(JSON.stringify(products));
+  const bytes = new Blob([
+    JSON.stringify({ items })
+  ]).size;
+
+  if (bytes > 750000) {
+    notify("ข้อมูลหรือรูปภาพใหญ่เกินไป กรุณาลดขนาดรูป");
+    return false;
+  }
+
+  window.smartCloud.write(items);
+  return true;
+};
+</script>
+
+<script type="module">
+import { getApp } from
+  "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  onSnapshot,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+const app = getApp();
+const auth = getAuth(app);
+const db = getFirestore(app);
+const sharedDoc = doc(db, "shared", "smart-basket");
+
+let unsubscribe = null;
+let queue = Promise.resolve();
+let session = 0;
+
+function status(message) {
+  document.getElementById("authStatus").textContent = message;
+}
+
+window.smartCloud.write = items => {
+  const token = session;
+
+  queue = queue.catch(() => {}).then(async () => {
+    if (token !== session || !window.smartCloud.ready) return;
+
+    await setDoc(sharedDoc, {
+      items,
+      updatedAt: new Date().toISOString()
+    });
+  }).catch(async error => {
+    if (token !== session) return;
+
+    window.smartCloud.ready = false;
+    status("Cloud save failed: " + error.message);
+
+    try {
+      const latest = await getDoc(sharedDoc);
+      window.applySmartCloud(
+        latest.exists() ? latest.data().items : []
+      );
+    } catch (_) {}
+
+    window.smartCloud.ready = true;
+  });
+};
+
+onAuthStateChanged(auth, user => {
+  session++;
+  const token = session;
+  window.smartCloud.ready = false;
+
+  if (unsubscribe) {
+    unsubscribe();
+    unsubscribe = null;
+  }
+
+  if (!user) {
+    window.applySmartCloud([]);
+    status("กรุณา Sign in with Google");
+    return;
+  }
+
+  status("กำลังเชื่อมต่อ Shopping List...");
+
+  unsubscribe = onSnapshot(sharedDoc, snap => {
+    if (token !== session) return;
+
+    const data = snap.exists() ? snap.data() : {};
+
+    window.applySmartCloud(data.items || []);
+    window.smartCloud.ready = true;
+
+    status("✓ Cloud Sync connected");
+  }, error => {
+    if (token !== session) return;
+
+    window.smartCloud.ready = false;
+    status("Cloud Sync error: " + error.message);
+  });
+});
 </script>
 
 </body>
